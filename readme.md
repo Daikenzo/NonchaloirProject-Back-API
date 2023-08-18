@@ -7,12 +7,12 @@ Daikenzo Wolfdry
 Github: [Profil of Daikenzo](https://github.com/Daikenzo)
 
 # Dependencies Used
-Express
-Nodemon
-Cors
+- Express
+- Nodemon
+- Cors
 
-Sequelize
-mariadB
-jsonwebtoken
-bcrypt
+- Sequelize
+- mariadB
+- jsonwebtoken
+- bcrypt
 
