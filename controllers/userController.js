@@ -4,6 +4,7 @@ const { UserModel } = require('../db/sequelize')
 const bcrypt = require('bcrypt')
 // Check User (All)
 exports.findAllUsers = (req, res) => {
+    console.log(UserModel);
     UserModel.scope('withoutPassword')
         .findAll()
         .then(result => {
