@@ -40,7 +40,7 @@ const initDb = () => {
     sequelize
         .sync({force: true})
         .then(()=>{   //
-            console.log('Sequelize ON');
+            // console.log('Sequelize ON');
         });
 };
 
