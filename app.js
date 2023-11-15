@@ -26,7 +26,7 @@ routes.forEach((route)=>{
 
 // default Request
 app.use((req, res) => {
-    res.status(404).json({ message: `L'url demandé n'existe pas.` })
+    res.status(404).json({ message: `L'url demandé n'existe pas.`, errorCode:res.statusCode})
 })
 // Connect App from listen Port
 app.listen(listen.port, (err) =>{
