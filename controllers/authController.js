@@ -7,9 +7,9 @@ const jwt = require("jsonwebtoken");
 const SECRET_KEY = "ma_clé_secrète";
 // Set Role Hiearchy
 const rolesHierarchy = {
-  user: ["user"],
-  editor: ["user", "editor"],
-  admin: ["user", "editor", "admin"],
+  user: ["user", "Adherent Spectacteur / Soutiens", "Adherent Atelier"],
+  editor: ["user","Adherent Spectacteur / Soutiens", "Adherent Atelier", "editor"],
+  admin: ["user", "Adherent Spectacteur / Soutiens", "Adherent Atelier", "editor", "admin"],
 };
 // Create User
 exports.signUp = (req, res) => {
@@ -18,6 +18,7 @@ exports.signUp = (req, res) => {
     .then((hash) => {
         // 
         const dataUser = { ...req.body, password: hash };
+        console.log(dataUser)
         return UserModel.create(dataUser).then((result) => {
             res.status(201).json({ message: "Un utilisateur a bien été créé.", 
             data: { ...result, password: "hidden" } });
@@ -25,8 +26,11 @@ exports.signUp = (req, res) => {
     })
     .catch((error) => {
         // Redirect Error
-      if (error instanceof ValidationError || error instanceof UniqueConstraintError) {
-        return res.status(400).json({ message: error.message });
+      if (error instanceof ValidationError) {
+        if (error instanceof UniqueConstraintError){
+          error.message = error.message + ": l'utilisateur est déjà présent"
+        }
+        return res.status(400).json({ message: `${error.message}` });
       }
 
       res.status(500).json({ message: error });

@@ -37,9 +37,13 @@ exports.updateUser = (req, res) => {
         })
         .catch(error => {
             // Duplicate Value Error
-            if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
-                return res.status(400).json({ message: error.message })
-            }
+            if (error instanceof ValidationError) {
+                console.log(error)
+                if (error instanceof UniqueConstraintError){
+                  error.message = error.message + ": l'utilisateur est déjà présent"
+                }
+                return res.status(400).json({ message: `${error.message}` });
+              }
             // Internal Error
             res.status(500).json({ message: error.message })
         });

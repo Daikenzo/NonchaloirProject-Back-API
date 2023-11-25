@@ -1,9 +1,7 @@
 // User Model defenition
-// Init Date 
-// const {DATE} = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('Users_test', {
+    return sequelize.define('Users', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -11,26 +9,30 @@ module.exports = (sequelize, DataTypes) => {
         },
         email: {
             type: DataTypes.STRING,
-            unique: {
-                msg: `L'utilisateur est déjà pris`
-            },
             allowNull: false,
+            unique: {
+                msg: 'This email is already taken.'
+            },
             validate: {
+                isEmail: {
+                    msg: `L'adresse Email doit être valide.`
+                },
                 notNull: {
-                    msg: `Il faut un nom d'utilisateur`
+                    msg: `L'adresse Email doit être valide.`
                 },
                 notEmpty: {
-                    msg: `Le nom d'utilisateur ne peut pas être vide`
+                    msg: `L'adresse utilisateur ne peut pas être vide`
                 }
             }
         },
         password: DataTypes.STRING,
-        firstName:{
+        username:DataTypes.STRING,
+        firstname:{
             type: DataTypes.STRING,
             validate: {
             }
         },
-        lastName:{
+        lastname:{
             type: DataTypes.STRING
         },
         phone: {
@@ -51,6 +53,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
         updatedAt: false,
-        createdAt: false
+        createdAt: new Date()
     })
 }

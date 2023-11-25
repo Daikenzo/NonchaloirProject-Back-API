@@ -2,7 +2,7 @@
 //Import
 const { Sequelize, DataTypes } = require('sequelize');
 const { listen, db } = require('../configs/databaseConfig');
-const roles = require('./data/rolesDb');
+const roles = require('./data/roles.json');
 const usersDefault = require('./data/usersDb');
 
 // Data Init

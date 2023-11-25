@@ -1,5 +1,6 @@
+// Rôle / Adhesion Type Model Defenition
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('Role_test', {
+    return sequelize.define('Role', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,

@@ -5,7 +5,7 @@ const morgan = require('morgan');
 var cors = require('cors'); // Middlerswares for http request from express
 const sequelize = require('./db/sequelize');
 const { listen } = require('./configs/databaseConfig');
-const routes = require('./routes/routesList');
+const routes = require('./routes/_routesList');
 const app = express();
 
 // Init Sequelize
