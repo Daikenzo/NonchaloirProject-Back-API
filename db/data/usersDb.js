@@ -5,18 +5,18 @@ const {DATEONLY} = require("sequelize");
 const usersDefault = [
     {
         firstname: "root",
-        email: "contact@nonchaloir.com",
+        email: "contact@nonch.com",
         password:"p@sword$2y$10$6lNNrP",
-        phone: "0652634844",
-        adress:"16 Impasse d'Ornon - Château D'ornon, porte 4, 33170 Gradignan",
-        password: "n@nchAl0iR€",
+        phone: "0100123520",
+        adress:"86 Impasse d'ochon - Château D'ochon, porte 4, 664200 Milan de dignan",
+        password: "mdp",
         roles:5
     },
     {
         firstname: "Jean",
         lastname: "Martin",
-        email:"webmaster@nonchaloir.com",
-        password: "p@sword5W€b",
+        email:"webmaster@nonch.com",
+        password: "mdp",
         roles:4
     },
     {
