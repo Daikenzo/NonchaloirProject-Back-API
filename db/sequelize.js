@@ -4,10 +4,10 @@ const { Sequelize, DataTypes } = require('sequelize');
 const { listen, db } = require('../configs/databaseConfig');
 const roles = require('./data/roles.json');
 const usersDefault = require('./data/usersDb');
+const setDefaultData = require('./setDefaultData')
 
 // Data Init
 let setDataSample = {roles: roles, users: usersDefault};
-
 
 // Sequelize Init
 const sequelize = new Sequelize(db.database, db.user, db.password, {
@@ -40,6 +40,7 @@ const initDb = () => {
     sequelize
         .sync({force: true})
         .then(()=>{   //
+            setDefaultData(RoleModel);
             // console.log('Sequelize ON');
         });
 };

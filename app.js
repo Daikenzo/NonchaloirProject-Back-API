@@ -13,8 +13,13 @@ sequelize.initDb();
 
 // Init App
 app.use(cors());
-app.use(morgan('dev'));
 app.use(express.json());
+app.use(morgan('dev'));
+
+// Init Middleware
+    // TimeStamp Queries Logger
+
+// Run Middleware
 
 // Init & Set Route
 routes.forEach((route)=>{
@@ -22,10 +27,11 @@ routes.forEach((route)=>{
     app.use(route.path, routepath);
 });
 
-// Init Middleware
+// End Point Middleware
 
 // default Request
-app.use((req, res) => {
+app.get("*", (req, res) => {
+    // Request Not Found
     res.status(404).json({ message: `L'url demandé n'existe pas.`, errorCode:res.statusCode})
 })
 // Connect App from listen Port

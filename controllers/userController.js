@@ -1,8 +1,9 @@
 // Init
-const { UniqueConstraintError, ValidationError } = require('sequelize')
+const { checkIsDefaultValidatorErrorMessage } = require("./errorController");
+const { ValidationError } = require('sequelize')
 const { UserModel } = require('../db/sequelize')
 const bcrypt = require('bcrypt')
-// Check User (All)
+// Check User
 exports.findAllUsers = (req, res) => {
     console.log(UserModel);
     UserModel.scope('withoutPassword')
@@ -15,6 +16,21 @@ exports.findAllUsers = (req, res) => {
             res.status(500).json({ message: error })
         });
 };
+
+exports.findUser = (req, res) => {
+    UserModel.scope('withoutPassword')
+        .findByPk(req.params.id)
+        .then(result => {
+            if (!result) {
+                res.status(404).json({ message: 'Aucun utilisateur trouvé' })
+            } else {
+            res.json({ message: `L'utilisateur N°${req.params.id} a bien été récupérée.`, data: result })
+        }})
+        .catch(error => {
+            res.status(500).json({ message: error })
+        })
+}
+
 // Update / Put User
 exports.updateUser = (req, res) => {
     UserModel
@@ -36,14 +52,13 @@ exports.updateUser = (req, res) => {
             };
         })
         .catch(error => {
-            // Duplicate Value Error
+            // Redirect Error
             if (error instanceof ValidationError) {
-                console.log(error)
-                if (error instanceof UniqueConstraintError){
-                  error.message = error.message + ": l'utilisateur est déjà présent"
-                }
+                // check and rename if Default Error Message
+                checkIsDefaultValidatorErrorMessage(error);
+                // Return Error 400
                 return res.status(400).json({ message: `${error.message}` });
-              }
+            }
             // Internal Error
             res.status(500).json({ message: error.message })
         });

@@ -8,7 +8,7 @@ const roleController = require('../controllers/roleController');
 // Router Set
 router
     .route('/')
-    .get(roleController.findAllroles)
+    .get(roleController.findAllRoles)
 
 
 

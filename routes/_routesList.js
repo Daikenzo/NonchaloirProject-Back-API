@@ -8,8 +8,8 @@ const routesList = [
         router:'./routes/userRoutes'
     },
     {   
-        path:`${defaultPath}`,
-        router:'./routes/userRoutes'
+        path:`${defaultPath}/roles`,
+        router:'./routes/roleRoutes'
     }
 ];
 

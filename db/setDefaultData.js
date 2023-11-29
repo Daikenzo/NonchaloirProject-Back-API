@@ -4,12 +4,12 @@ const bcrypt = require('bcrypt');
 const roles = require('./data/roles');
 const usersDb = require('./data/usersDb');
 
-module.exports = (UserModel,RoleModel) => {
+module.exports = (RoleModel) => {
 
     // set Roles
     const rolePromises = roles.map(role => {
         return RoleModel.create({
             label: role
-        })
+        });
     })
 }

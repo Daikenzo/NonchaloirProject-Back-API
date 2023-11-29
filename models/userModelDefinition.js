@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: {
-                msg: 'This email is already taken.'
+                args: ['uniqueKey'],
+                msg: 'Un utilisateur déjà existant possède cette email.'
             },
             validate: {
                 isEmail: {
@@ -49,6 +50,9 @@ module.exports = (sequelize, DataTypes) => {
             withoutPassword: {
                 attributes: { exclude: ['password'] }
             }
+        },
+        fields:{
+            uniqueMsg: "fff"
         }
     },
     {

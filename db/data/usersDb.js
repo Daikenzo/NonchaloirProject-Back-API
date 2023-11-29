@@ -6,7 +6,6 @@ const usersDefault = [
     {
         firstname: "root",
         email: "contact@nonch.com",
-        password:"p@sword$2y$10$6lNNrP",
         phone: "0100123520",
         adress:"86 Impasse d'ochon - Château D'ochon, porte 4, 664200 Milan de dignan",
         password: "mdp",
