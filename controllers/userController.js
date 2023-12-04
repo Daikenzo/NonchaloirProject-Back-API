@@ -1,8 +1,8 @@
 // Init
 const { checkIsDefaultValidatorErrorMessage } = require("./errorController");
-const { ValidationError } = require('sequelize')
-const { UserModel } = require('../db/sequelize')
-const bcrypt = require('bcrypt')
+const { ValidationError } = require('sequelize');
+const { UserModel } = require('../db/sequelizeSetup');
+const bcrypt = require('bcrypt');
 // Check User
 exports.findAllUsers = (req, res) => {
     console.log(UserModel);

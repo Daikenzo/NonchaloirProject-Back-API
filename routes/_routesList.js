@@ -10,6 +10,10 @@ const routesList = [
     {   
         path:`${defaultPath}/roles`,
         router:'./routes/roleRoutes'
+    },
+    {   
+        path:`${defaultPath}/events`,
+        router:'./routes/eventRoutes'
     }
 ];
 

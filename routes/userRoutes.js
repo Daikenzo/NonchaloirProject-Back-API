@@ -5,7 +5,7 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 // Import Sequelize Model & Middleware for restrict
-const { UserModel } = require('../db/sequelize');
+const { UserModel } = require('../db/sequelizeSetup');
 
 // Router Set
 router

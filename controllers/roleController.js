@@ -1,6 +1,6 @@
 // Role Model
 const { UniqueConstraintError, ValidationError } = require('sequelize')
-const { RoleModel } = require("../db/sequelize")
+const { RoleModel } = require("../db/sequelizeSetup")
 
 exports.findAllRoles = (req, res) => {
     RoleModel

@@ -43,16 +43,14 @@ module.exports = (sequelize, DataTypes) => {
             type:DataTypes.STRING
         },
         birthday:{
-            type:DataTypes.STRING
+            type:DataTypes.DATEONLY,
+            defaultValue:DataTypes.NOW
         }
     }, {
         scopes: {
             withoutPassword: {
                 attributes: { exclude: ['password'] }
             }
-        },
-        fields:{
-            uniqueMsg: "fff"
         }
     },
     {

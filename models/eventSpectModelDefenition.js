@@ -1,10 +1,12 @@
+const { DATEONLY, DATE } = require("sequelize");
+
 // Event / Spetacles Model Defenition
-module.exports = (sequelize, Datatypes) => {
-    return sequelize.define('event', {
+module.exports = (sequelize, DataTypes) => {
+    return sequelize.define('Event', {
         id: {
-            type:DataTypes.INTEGER,
-            primarykey: true,
-            autoincrement:true
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
         },
         name:{
             type:DataTypes.STRING,
@@ -17,12 +19,11 @@ module.exports = (sequelize, Datatypes) => {
         },
         type:DataTypes.STRING,
         description:{
-            type:Datatypes.STRING,
+            type:DataTypes.STRING,
             allowNull:false
         },
         createAt: {
             type:DataTypes.DATE,
-            defaultValue: new DATEONLY(Date.now()),
             validate:{
                 isDate:{
                     args:true,
@@ -32,7 +33,7 @@ module.exports = (sequelize, Datatypes) => {
         },
         representDate: {
             type:DataTypes.DATE,
-            defaultValue: new DATE(Date.now()),
+            // defaultValue: new DATE(Date.now()),
             validate:{
                 isDate:{
                     args:true,
@@ -48,7 +49,7 @@ module.exports = (sequelize, Datatypes) => {
             }
         },
         locationAdress:{
-            type:Datatypes.JSON
+            type:DataTypes.JSON
         },
         locationContactName:DataTypes.STRING,
         locationContactMail:{

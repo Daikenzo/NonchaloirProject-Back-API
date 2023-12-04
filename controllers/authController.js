@@ -1,7 +1,7 @@
 // Import & Init
 const { checkIsDefaultValidatorErrorMessage } = require("./errorController");
 const { ValidationError } = require("sequelize");
-const { UserModel, RoleModel } = require("../db/sequelize");
+const { UserModel, RoleModel } = require("../db/sequelizeSetup");
 // Hash JWT Init
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");

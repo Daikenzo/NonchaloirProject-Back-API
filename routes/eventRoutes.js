@@ -8,11 +8,11 @@ const eventController = require('../controllers/eventController');
 // Router Set
 router
     .route('/')
-    .get(eventController.findAllevents)
+    .get(eventController.findAllEvents)
 
 router
     .route('/:id')
-    .get(eventController.findEvent)
+    .get(eventController.findEventByPk)
 
 
 // Export Module

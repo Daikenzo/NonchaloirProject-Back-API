@@ -1,13 +1,16 @@
+const { DATE } = require("sequelize");
+
 // Contact FormData Model Defenition
-module.exports = (sequelize, Datatypes) => {
-    return sequelize.define('contactform', {
+module.exports = (sequelize, DataTypes) => {
+    return sequelize.define('contact', {
         id: {
-            type:DataTypes.INTEGER,
-            primarykey: true,
-            autoincrement:true
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
         },
         senderFirstName:{
             type:DataTypes.STRING,
+            allowNull:false,
             validate:{
                 isAlpha:true,
                 notNull:{
@@ -18,6 +21,7 @@ module.exports = (sequelize, Datatypes) => {
         },
         senderLastName:{
             type:DataTypes.STRING,
+            allowNull:false,
             validate:{
                 isAlpha:true,
                 notNull:{
@@ -28,6 +32,7 @@ module.exports = (sequelize, Datatypes) => {
         },
         senderEmail:{
             type:DataTypes.STRING,
+            allowNull:false,
             validate:{
                 isEmail:{
                     args:true,
@@ -48,6 +53,7 @@ module.exports = (sequelize, Datatypes) => {
         },
         sendermessage:{
             type:DataTypes.BLOB('medium'),
+            allowNull:false,
             validate:{
                 notEmpty:{
                     args:true,
@@ -60,7 +66,6 @@ module.exports = (sequelize, Datatypes) => {
             }
         }
     },{
-        updatedAt: false,
-        createdAt: new Date()
+        updatedAt: false
     });
 };

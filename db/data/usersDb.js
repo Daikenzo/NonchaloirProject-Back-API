@@ -4,19 +4,29 @@ const {DATEONLY} = require("sequelize");
 
 const usersDefault = [
     {
-        firstname: "root",
-        email: "contact@nonch.com",
-        phone: "0100123520",
+        firstname: "Anais",
+        lastname:"Sanchez",
+        email: "anais.sanchez@nonch.com",
+        phone: "0650123520",
         adress:"86 Impasse d'ochon - Château D'ochon, porte 4, 664200 Milan de dignan",
         password: "mdp",
-        roles:5
+        roles:'Admin'
     },
     {
         firstname: "Jean",
         lastname: "Martin",
         email:"webmaster@nonch.com",
         password: "mdp",
-        roles:4
+        roles:'Editor'
+    },
+    {
+        firstname: "Tintin",
+        lastname:"Mikado",
+        email: "tintin.mika@nonch.com",
+        phone: "0100123520",
+        adress:"12 Rue des Dupont hergé, 34600 Moulassard",
+        password: "t1ntin€tMil0u",
+        roles:'Editor'
     },
     {
         firstname: "Louis",
@@ -25,8 +35,7 @@ const usersDefault = [
         phone: "0642349812",
         adress:"12 Rue des Dupont hergé, 34600 Moulassard",
         password: "t1ntin€tMil0u",
-        birthday: new DATEONLY('1992-11-22'),
-        roles:1
+        birthday: new DATEONLY('1992-11-22')
     }
 ]
 
