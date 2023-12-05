@@ -13,7 +13,7 @@ const rolesHierarchy = {
   admin: ["user", "Adherent Spectacteur / Soutiens", "Adherent Atelier", "editor", "admin"],
 };
 // Create User
-exports.signUp = (req, res) => {
+const signUp = (req, res) => {
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
@@ -40,7 +40,7 @@ exports.signUp = (req, res) => {
     });
 };
 // Login Conexion 
-exports.login = (req, res) => {
+const login = (req, res) => {
   UserModel.findOne({ where: { email: req.body.identifiant } })
     .then((user) => {
       // console.log(user);
@@ -71,7 +71,7 @@ exports.login = (req, res) => {
     });
 };
 
-exports.protect = (req, res, next) => {
+const protect = (req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(401).json({ message: `Vous n'êtes pas authentifié` });
   }
@@ -91,7 +91,7 @@ exports.protect = (req, res, next) => {
   }
 };
 
-exports.restrictTo = (roleParam) => {
+const restrictTo = (roleParam) => {
   return (req, res, next) => {
     return UserModel.findOne({ where: { email: req.email } })
       .then((user) => {
@@ -111,7 +111,7 @@ exports.restrictTo = (roleParam) => {
   };
 };
 
-exports.restrictToOwnUser = (modelParam) => {
+const restrictToOwnUser = (modelParam) => {
   return (req, res, next) => {
     modelParam
       .findByPk(parseInt(req.params.id))
@@ -135,3 +135,6 @@ exports.restrictToOwnUser = (modelParam) => {
       });
   };
 };
+
+// Export
+module.exports = {login, signUp, protect, restrictTo, restrictToOwnUser}

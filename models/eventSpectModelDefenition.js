@@ -1,4 +1,4 @@
-const { DATEONLY, DATE } = require("sequelize");
+const { DATEONLY, DATE, NOW } = require("sequelize");
 
 // Event / Spetacles Model Defenition
 module.exports = (sequelize, DataTypes) => {
@@ -22,8 +22,9 @@ module.exports = (sequelize, DataTypes) => {
             type:DataTypes.STRING,
             allowNull:false
         },
-        createAt: {
+        eventDate: {
             type:DataTypes.DATE,
+            defaultValue: sequelize.NOW,
             validate:{
                 isDate:{
                     args:true,
@@ -31,9 +32,9 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
-        representDate: {
-            type:DataTypes.DATE,
-            // defaultValue: new DATE(Date.now()),
+        creationDate: {
+            type:DataTypes.DATEONLY,
+            defaultValue: this.eventDate,
             validate:{
                 isDate:{
                     args:true,
@@ -42,17 +43,25 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         price:{
-            type:DataTypes.DECIMAL(4,2),
-            defaultValue:0,
+            type:DataTypes.JSON,
             validate:{
-                min:0
+                isPriceValid(value) {
+                    // Le prix doit être avoir au minimum
+                    if (value.hasOwnProperty('normal') && value.hasOwnProperty('adherent') && value.hasOwnProperty('junior')) {
+                        if (value.normal === null || (value.adherent === null && value.junior === null)) {
+                            throw new Error('Au moins le prix standard doit être renseigné');
+                        };
+                    } else {
+                        throw new Error('La syntaxe des données est incorrecte.');
+                    };
+                }
             }
         },
-        locationAdress:{
+        localAdress:{
             type:DataTypes.JSON
         },
-        locationContactName:DataTypes.STRING,
-        locationContactMail:{
+        localContactName:DataTypes.STRING,
+        localContactMail:{
             type:DataTypes.STRING,
             validate:{
                 isEmail:{
@@ -61,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
-        locationContactPhone:{
+        localContactPhone:{
             type:DataTypes.DECIMAL(10,0)
         }
     },{

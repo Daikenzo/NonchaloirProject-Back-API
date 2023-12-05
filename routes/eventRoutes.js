@@ -9,6 +9,7 @@ const eventController = require('../controllers/eventController');
 router
     .route('/')
     .get(eventController.findAllEvents)
+    // .create(eventController.createEvent)
 
 router
     .route('/:id')

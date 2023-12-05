@@ -2,7 +2,7 @@
 const { UniqueConstraintError, ValidationError } = require("sequelize");
 
 // Check validError and Correct Message
-exports.checkIsDefaultValidatorErrorMessage = (error) => {
+const checkIsDefaultValidatorErrorMessage = (error) => {
     // If Unique Error OR default error message is Validator Error
     if (error instanceof UniqueConstraintError || error.message === "Validation error"){
         error.message = `${error.message}: ${error.original.sqlMessage}`;
@@ -10,3 +10,6 @@ exports.checkIsDefaultValidatorErrorMessage = (error) => {
         // Return Error 404
     return error.message;
 };
+
+// Export
+module.exports = {checkIsDefaultValidatorErrorMessage}

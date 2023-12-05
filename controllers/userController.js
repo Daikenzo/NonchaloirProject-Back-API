@@ -4,35 +4,35 @@ const { ValidationError } = require('sequelize');
 const { UserModel } = require('../db/sequelizeSetup');
 const bcrypt = require('bcrypt');
 // Check User
-exports.findAllUsers = (req, res) => {
+const findAllUsers = (req, res) => {
     console.log(UserModel);
     UserModel.scope('withoutPassword')
         .findAll()
         .then(result => {
-            res.json({ message: 'La liste des utilisateurs a bien été récupérée.', data: result })
+            res.json({ message: 'La liste des utilisateurs a bien été récupérée.', data: result });
         })
         .catch(error => {
             // Internal Error
-            res.status(500).json({ message: error })
+            res.status(500).json({ message: error });
         });
 };
 
-exports.findUser = (req, res) => {
+const findUserByPk = (req, res) => {
     UserModel.scope('withoutPassword')
         .findByPk(req.params.id)
         .then(result => {
             if (!result) {
-                res.status(404).json({ message: 'Aucun utilisateur trouvé' })
+                res.status(404).json({ message: 'Aucun utilisateur trouvé' });
             } else {
-            res.json({ message: `L'utilisateur N°${req.params.id} a bien été récupérée.`, data: result })
+            res.json({ message: `L'utilisateur N°${req.params.id} a bien été récupérée.`, data: result });
         }})
         .catch(error => {
-            res.status(500).json({ message: error })
-        })
-}
+            res.status(500).json({ message: error });
+        });
+};
 
 // Update / Put User
-exports.updateUser = (req, res) => {
+const updateUser = (req, res) => {
     UserModel
         .findByPk(req.params.id)
         .then(result => {
@@ -46,8 +46,8 @@ exports.updateUser = (req, res) => {
                             .update(dataUser)
                             .then(() => {
                                 res.json({ message: `Utilisateur modifié : ${result.dataValues.id} `, 
-                                data: result })
-                            })
+                                data: result });
+                            });
                     });
             };
         })
@@ -60,11 +60,11 @@ exports.updateUser = (req, res) => {
                 return res.status(400).json({ message: `${error.message}` });
             }
             // Internal Error
-            res.status(500).json({ message: error.message })
+            res.status(500).json({ message: error.message });
         });
 };
 // Delete User
-exports.deleteUser = (req, res) => {
+const deleteUser = (req, res) => {
     UserModel
         .findByPk(req.params.id)
         .then(result => {
@@ -74,13 +74,16 @@ exports.deleteUser = (req, res) => {
                 return result
                     .destroy()
                     .then(() => {
-                        result.password = 'hidden'
-                        res.json({ message: `utilisateur supprimé : ${result.dataValues.id} `, data: result })
-                    })
-            }
+                        result.password = 'hidden';
+                        res.json({ message: `utilisateur supprimé : ${result.dataValues.id} `, data: result });
+                    });
+            };
         })
         .catch(error => {
             // Internal Error
-            res.status(500).json({ message: `${error}` })
+            res.status(500).json({ message: `${error}` });
         });
 };
+
+// Export
+module.exports = {findAllUsers, findUserByPk, updateUser, deleteUser};

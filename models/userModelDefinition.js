@@ -11,8 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: {
-                args: ['uniqueKey'],
-                msg: 'Un utilisateur déjà existant possède cette email.'
+                msg: "Un utilisateur déjà existant possède cette email."
             },
             validate: {
                 isEmail: {
@@ -27,7 +26,9 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         password: DataTypes.STRING,
-        username:DataTypes.STRING,
+        username:{
+            type:DataTypes.STRING
+        },
         firstname:{
             type: DataTypes.STRING,
             validate: {
@@ -40,7 +41,10 @@ module.exports = (sequelize, DataTypes) => {
             type:DataTypes.INTEGER
         },
         adress:{
-            type:DataTypes.STRING
+            type:DataTypes.JSON,
+            validate:{
+
+            }
         },
         birthday:{
             type:DataTypes.DATEONLY,
@@ -56,5 +60,5 @@ module.exports = (sequelize, DataTypes) => {
     {
         updatedAt: false,
         createdAt: new Date()
-    })
-}
+    });
+};

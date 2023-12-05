@@ -22,7 +22,7 @@ router
 
 router
     .route('/:id')
-    .get(userController.findUser)
+    .get(userController.findUserByPk)
     .put(authController.protect, authController.restrictToOwnUser(UserModel), userController.updateUser)
 
 
