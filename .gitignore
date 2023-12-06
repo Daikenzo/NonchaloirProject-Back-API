@@ -5,6 +5,10 @@ node_modules
 images/*
 middleware
 
+# Sample Secure Data 
+userDb.js
+adressDb.js
+
 ## Google Drive Generate File
 desktop.ini
 

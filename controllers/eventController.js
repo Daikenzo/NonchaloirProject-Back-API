@@ -32,13 +32,17 @@ const findEventByPk = (req, res) => {
 };
 
 const createEvent = (req, res) => {
+    // Init
     const newEvent = req.body;
     // Set
     EventModel
         .create({
             name:newEvent.name,
             eventDate:newEvent.eventDate,
-            createAt:newEvent.creationDate,
+            type:newEvent.type?newEvent.type : "Spectacles",
+            price:newEvent.price,
+            creationDate:newEvent.creationDate,
+
         })
 };
 

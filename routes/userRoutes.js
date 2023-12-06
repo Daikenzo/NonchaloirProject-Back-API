@@ -2,28 +2,28 @@
 const express = require('express');
 const router = express.Router();
 // Init Conthrollers
-const userController = require('../controllers/userController');
-const authController = require('../controllers/authController');
+const userCtr = require('../controllers/userController');
+const authCtr = require('../controllers/authController');
 // Import Sequelize Model & Middleware for restrict
 const { UserModel } = require('../db/sequelizeSetup');
 
 // Router Set
 router
     .route('/')
-    .get(userController.findAllUsers)
+    .get(userCtr.findAllUsers)
 
 router
     .route('/login')
-    .post(authController.login)
+    .post(authCtr.login)
     
 router
     .route('/signup')
-    .post(authController.signUp)
+    .post(authCtr.signUp)
 
 router
     .route('/:id')
-    .get(userController.findUserByPk)
-    .put(authController.protect, authController.restrictToOwnUser(UserModel), userController.updateUser)
+    .get(userCtr.findUserByPk)
+    .put(authCtr.protect, authCtr.restrictToOwnUser(UserModel), userCtr.updateUser)
 
 
 // Export Module

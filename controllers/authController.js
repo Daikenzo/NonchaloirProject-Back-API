@@ -81,7 +81,7 @@ const protect = (req, res, next) => {
       const decoded = jwt.verify(token, SECRET_KEY);
       req.username = decoded.data.username;
       req.email = decoded.data.email;
-      console.log(req.username)
+      // console.log(req.username)
       next();
     } catch (error) {
       res.status(403).json({ message: `Le jeton n'est pas valide` });
@@ -97,7 +97,7 @@ const restrictTo = (roleParam) => {
       .then((user) => {
         return RoleModel.findByPk(user.RoleId).then((role) => {
           if (rolesHierarchy[role.label].includes(roleParam)) {
-            console.log("UserId",user.id)
+            // console.log("UserId",user.id)
             req.UserId = user.id;
             return next();
           } else {

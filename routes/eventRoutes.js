@@ -2,18 +2,18 @@
 const express = require('express');
 const router = express.Router();
 // Init Conthrollers
-const eventController = require('../controllers/eventController');
- const authController = require('../controllers/authController');
+const eventCtr = require('../controllers/eventController');
+ const authCtr = require('../controllers/authController');
 
 // Router Set
 router
     .route('/')
-    .get(eventController.findAllEvents)
-    // .create(eventController.createEvent)
+    .get(eventCtr.findAllEvents)
+    // .create(eventCtr.createEvent)
 
 router
     .route('/:id')
-    .get(eventController.findEventByPk)
+    .get(eventCtr.findEventByPk)
 
 
 // Export Module

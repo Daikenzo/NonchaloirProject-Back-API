@@ -2,13 +2,13 @@
 const express = require('express');
 const router = express.Router();
 // Init Conthrollers
-const roleController = require('../controllers/roleController');
+const roleCtr = require('../controllers/roleController');
 // const authController = require('../controllers/authController');
 
 // Router Set
 router
     .route('/')
-    .get(roleController.findAllRoles)
+    .get(roleCtr.findAllRoles)
 
 
 
