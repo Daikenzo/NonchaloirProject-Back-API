@@ -6,7 +6,7 @@ images/*
 middleware
 
 # Sample Secure Data 
-userDb.js
+usersDb.js
 adressDb.js
 
 ## Google Drive Generate File

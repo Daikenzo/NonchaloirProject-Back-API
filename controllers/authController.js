@@ -5,7 +5,8 @@ const { UserModel, RoleModel } = require("../db/sequelizeSetup");
 // Hash JWT Init
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const SECRET_KEY = "ma_clé_secrète";
+// Secret key preset with bcrypt.fr
+const SECRET_KEY = "$2y$10$vNi4rfm4pSSkoCLWm5jYAuKCvDGBtMDZhikH4alYJz671uItPih6i";
 // Set Role Hiearchy
 const rolesHierarchy = {
   user: ["user", "Adherent Spectacteur / Soutiens", "Adherent Atelier"],
