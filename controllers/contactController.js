@@ -5,7 +5,7 @@ const { ContactModel } = require('../db/sequelizeSetup');
 const bcrypt = require('bcrypt');
 const { defaultSalt } = require("../configs/secureConfig");
 // Find Contact
-exports.findAllContacts = (req, res) => {
+const findAllContacts = (req, res) => {
     ContactModel
         .findAll()//{ include: ReviewModel })
         .then(result => {
@@ -16,7 +16,7 @@ exports.findAllContacts = (req, res) => {
         });
 };
 
-exports.findContactByPk = (req, res) => {
+const findContactByPk = (req, res) => {
     ContactModel
         .findByPk(req.params.id)
         .then(result => {
@@ -30,3 +30,12 @@ exports.findContactByPk = (req, res) => {
             res.status(500).json({ message: `Une erreur est survenue : ${error}` });
         });
 };
+// Create Contact Ticket
+const createContactTicket = (req, res) => {
+    
+};
+// Update Contact Ticket
+
+// Delete Contact Ticket
+
+module.exports = {findAllContacts, findContactByPk};

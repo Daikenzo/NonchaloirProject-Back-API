@@ -3,6 +3,7 @@ const express = require('express');
 const defaultPath = `/api`;
 
 const routesList = [
+    // Conthroller Route
     {   
         path:`${defaultPath}/users`,
         router:'./routes/userRoutes'
@@ -14,7 +15,12 @@ const routesList = [
     {   
         path:`${defaultPath}/events`,
         router:'./routes/eventRoutes'
+    },
+    {   
+        path:`${defaultPath}/contacts`,
+        router:'./routes/contactRoutes'
     }
 ];
+
 
 module.exports = routesList;

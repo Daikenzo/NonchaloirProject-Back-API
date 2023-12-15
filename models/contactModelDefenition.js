@@ -2,6 +2,8 @@ const { DATE } = require("sequelize");
 
 // Contact FormData Model Defenition
 module.exports = (sequelize, DataTypes) => {
+    // Phone Regex (European)
+    const phoneExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g; 
     return sequelize.define('contact', {
         id: {
             type: DataTypes.INTEGER,
@@ -36,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
             validate:{
                 isEmail:{
                     args:true,
-                    msg:"L'email ne peux pas être vide"
+                    msg:"Veuillez entrez un email valide"
                 },
                 notNull:{
                     args:true,
@@ -44,11 +46,13 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
-        senderPhone:{
-            type:DataTypes.DECIMAL(10,0),
+        senderPhone: {
+            type:DataTypes.STRING,
             validate:{
-                isNumber:true,
-                min:0
+                is:{
+                    args:phoneExp,
+                    msg:"vous devez respecter le format de téléphone européen"
+                }
             }
         },
         sendermessage:{

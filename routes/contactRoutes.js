@@ -2,19 +2,19 @@
 const express = require('express');
 const router = express.Router();
 // Init Conthrollers
-const eventCtr = require('../controllers/eventController');
+const contactCtr = require('../controllers/contactController');
 const authCtr = require('../controllers/authController');
-const { EventModel } = require('../db/sequelizeSetup');
+// const {  } = require('../db/sequelizeSetup');
 
 // Router Set
 router
     .route('/')
-    .get(eventCtr.findAllEvents)
-    .post(authCtr.protect, authCtr.restrictTo("Editor"), eventCtr.createEvent)
+    .get(contactCtr.findAllContacts)
+    // .post(authCtr.protect, authCtr.restrictTo("Editor"), contactCtr.createContactTicket)
 
 router
     .route('/:id')
-    .get(eventCtr.findEventByPk)
+    .get(contactCtr.findContactByPk)
     // .put(authCtr.protect, eventCtr.updateEvent)
     // .delete(authCtr.protect, authCtr.restrictToOwnUser(EventModel), eventCtr.deleteEvent)
 

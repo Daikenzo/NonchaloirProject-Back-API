@@ -39,6 +39,9 @@ const EventModel = defineEventModel(sequelize,DataTypes);
 RoleModel.hasMany(UserModel);
 UserModel.belongsTo(RoleModel);
 
+UserModel.hasMany(EventModel);
+EventModel.belongsTo(UserModel);
+
 // Database Initialisation
 const initDb = () => {
     sequelize
@@ -51,5 +54,5 @@ const initDb = () => {
 
 // Export Module
 module.exports = {
-    initDb, sequelize, EventModel, UserModel, RoleModel
+    initDb, sequelize, EventModel, UserModel, RoleModel, ContactModel
 };
