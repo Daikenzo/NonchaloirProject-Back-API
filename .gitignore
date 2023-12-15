@@ -15,3 +15,6 @@ desktop.ini
 
 ## Don't Ignore this
 !sources/images/default.png
+!sources/images/default.jpg
+!sources/documents/default.txt
+!sources/documents/default.pdf

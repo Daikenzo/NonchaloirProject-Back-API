@@ -2,7 +2,7 @@
 const { UniqueConstraintError, ValidationError } = require('sequelize')
 const { RoleModel } = require("../db/sequelizeSetup")
 
-exports.findAllRoles = (req, res) => {
+const findAllRoles = (req, res) => {
     RoleModel
         .findAll()
         .then(result => {
@@ -12,3 +12,5 @@ exports.findAllRoles = (req, res) => {
             res.status(500).json({ message: error })
         })
 }
+
+module.exports = {findAllRoles}

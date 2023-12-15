@@ -24,7 +24,7 @@ router
     .route('/:id')
     .get(userCtr.findUserByPk)
     .put(authCtr.protect, authCtr.restrictToOwnUser(UserModel), userCtr.updateUser)
-
+    .delete(authCtr.protect, authCtr.restrictTo("Admin"), userCtr.deleteUser)
 
 // Export Module
 module.exports = router;

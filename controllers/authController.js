@@ -10,9 +10,9 @@ const { jwtToken, defaultSaltRound } = require("../configs/secureConfig");
 const SECRET_KEY = jwtToken.key;
 // Set Role Hiearchy
 const rolesHierarchy = {
-  user: ["user", "Adherent Spectacteur / Soutiens", "Adherent Atelier"],
-  editor: ["user","Adherent Spectacteur / Soutiens", "Adherent Atelier", "editor"],
-  admin: ["user", "Adherent Spectacteur / Soutiens", "Adherent Atelier", "editor", "admin"],
+  User: ["User", "Adherent Spectacteur / Soutiens", "Adherent Atelier"],
+  Editor: ["User","Adherent Spectacteur / Soutiens", "Adherent Atelier", "Editor"],
+  Admin: ["User", "Adherent Spectacteur / Soutiens", "Adherent Atelier", "Editor", "Admin"]
 };
 // Create User
 const signUp = (req, res) => {
@@ -43,7 +43,7 @@ const signUp = (req, res) => {
 };
 // Login Conexion 
 const login = (req, res) => {
-
+  // check identifiant
   UserModel.scope('withPassword').findOne({ where: { email: req.body.identifiant } })
     .then((user) => {
       // console.log(user);
@@ -73,12 +73,12 @@ const login = (req, res) => {
       return res.status(500).json({ message: error.message });
     });
 };
-
+// Protection Auth User
 const protect = (req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(401).json({ message: `Vous n'êtes pas authentifié` });
   }
-  
+  // Get Token
   const token = req.headers.authorization.split(" ")[1];
   if (token) {
     try {
@@ -86,7 +86,8 @@ const protect = (req, res, next) => {
       req.identifiant = decoded.data.email;
       req.username = decoded.data.username;
       req.email = decoded.data.email;
-      // console.log(req.username)
+      // Token Valid
+      // console.log(req.email)
       next();
     } catch (error) {
       res.status(403).json({ message: `Le jeton n'est pas valide` });
@@ -95,12 +96,14 @@ const protect = (req, res, next) => {
     res.status(401).json({ message: `Vous n'êtes pas authentifié.` });
   }
 };
-
+// Auth Restrict
 const restrictTo = (roleParam) => {
   return (req, res, next) => {
     return UserModel.findOne({ where: { email: req.email } })
       .then((user) => {
-        return RoleModel.findByPk(user.RoleId).then((role) => {
+        if (!user) return res.status(401).json({ message: `Le jeton a expiré` }); //Old Token exist but Expired
+        return RoleModel.findByPk(user.RoleId).then(role => {
+          // Check if Loggin User Role can bypass in RoleParam
           if (rolesHierarchy[role.label].includes(roleParam)) {
             // console.log("UserId",user.id)
             req.UserId = user.id;
@@ -127,6 +130,7 @@ const restrictToOwnUser = (modelParam) => {
         } 
         return UserModel.findOne({ where: { email: req.email } }).then((user) => {
           // Only same user or a Admin User (RoleId = 5) can pass next
+          if (!user) return res.status(401).json({ message: `Le jeton a expiré` }); //Old Token exist but Expired
           if (result.id !== user.id && (user.RoleId !== 5)) {
             const message = "Tu n'as pas l'autorisation d'accéder à cette ressource";
             return res.status(403).json({ message });
