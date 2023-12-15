@@ -19,6 +19,10 @@ const routesList = [
     {   
         path:`${defaultPath}/contacts`,
         router:'./routes/contactRoutes'
+    },
+    {   
+        path:`${defaultPath}/reservations`,
+        router:'./routes/reservationRoutes'
     }
 ];
 

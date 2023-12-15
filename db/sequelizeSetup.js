@@ -28,12 +28,14 @@ const defineRoleModel = require('../models/roleModelDefinition');
 const defineContactModel = require('../models/contactModelDefenition');
 const defineUserModel = require('../models/userModelDefinition');
 const defineEventModel = require('../models/eventSpectModelDefenition');
+const defineReservationModel = require('../models/reservationModelDefenition');
 
 // Table set
 const RoleModel = defineRoleModel(sequelize, DataTypes);
 const ContactModel = defineContactModel(sequelize, DataTypes);
 const UserModel = defineUserModel(sequelize, DataTypes);
 const EventModel = defineEventModel(sequelize,DataTypes);
+const ReservationModel = defineReservationModel(sequelize,DataTypes);
 
 // Table Jointure
 RoleModel.hasMany(UserModel);
@@ -54,5 +56,5 @@ const initDb = () => {
 
 // Export Module
 module.exports = {
-    initDb, sequelize, EventModel, UserModel, RoleModel, ContactModel
+    initDb, sequelize, EventModel, UserModel, RoleModel, ContactModel, ReservationModel
 };
