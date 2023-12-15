@@ -1,7 +1,7 @@
-const { DATEONLY, DATE, NOW } = require("sequelize");
-
 // Event / Spetacles Model Defenition
 module.exports = (sequelize, DataTypes) => {
+    // Phone Regex
+    const phoneExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g; 
     return sequelize.define('Event', {
         id: {
             type: DataTypes.INTEGER,
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         eventDate: {
             type:DataTypes.DATE,
-            defaultValue: sequelize.NOW,
+            defaultValue: DataTypes.NOW,
             validate:{
                 isDate:{
                     args:true,
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         creationDate: {
             type:DataTypes.DATEONLY,
-            defaultValue: this.eventDate,
+            defaultValue: DataTypes.NOW,
             validate:{
                 isDate:{
                     args:true,
@@ -46,15 +46,38 @@ module.exports = (sequelize, DataTypes) => {
             type:DataTypes.JSON,
             validate:{
                 isPriceValid(value) {
-                    // Le prix doit être avoir au minimum
-                    if (value.hasOwnProperty('normal') && value.hasOwnProperty('adherent') && value.hasOwnProperty('junior')) {
-                        if (value.normal === null || (value.adherent === null && value.junior === null)) {
-                            throw new Error('Au moins le prix standard doit être renseigné');
-                        };
+                    // Si 
+                    if ( (value.hasOwnProperty('normal') && value.hasOwnProperty('adherent') 
+                        && ((value.hasOwnProperty('junior') && !value.hasOwnProperty('student')) 
+                        || (!value.hasOwnProperty('junior') && value.hasOwnProperty('student')) )
+                        && value.hasOwnProperty('group')  // value.normal > 0
+                        ) || (
+                            (!value.hasOwnProperty('normal')) && !(value.hasOwnProperty('adherent') 
+                            || value.hasOwnProperty ('junior') || value.hasOwnProperty('student') 
+                            || value.hasOwnProperty('group')
+                            ))
+                    // && value.hasOwnProperty('adherent') && value.hasOwnProperty('junior')
+                    ) {
+                        const reduceValue = value.hasOwnProperty('student')? value.student : value.junior; 
+                        // Tarrif normal / plein obligatoire
+                        if ((value.normal === null || value.normal === 0) && (value.normal !== null || value.adherent === null 
+                            || reduceValue === null || value.group === null)) {
+                            throw new Error('Les évènements doivent spécifié au moins le tarif plein.');
+                        } // Min value: 0
+                        if (value.normal < 0 || value.adherent < 0 || reduceValue < 0 || value.group < 0){
+                            throw new Error('Veuillez entrez une valeur positive');
+                        }// Tarif plein doit être le plus grand nombre pour une personne
+                        if (value.normal < value.adherent || value.normal < reduceValue || value.normal < value.group){
+                            throw new Error('Le tarif normal/plein ne peut pas être inférieur au prix réduit');
+                        }// ordre de prix : Adherent < tarif réduit < tarif groupe (par per)
+                        if ( (value.adherent >= value.group || value.adherent >= reduceValue ) || (reduceValue >= value.group ) ){
+                            throw new Error(
+                                'Le prix adhérent doit être moins chère au plus cher dans cet ordre : adherent - réduit - groupe');
+                        }
                     } else {
                         throw new Error('La syntaxe des données est incorrecte.');
                     };
-                }
+                },
             }
         },
         localAdress:{
@@ -71,8 +94,16 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         localContactPhone:{
-            type:DataTypes.DECIMAL(10,0)
+            type:DataTypes.STRING,
+            validate:{
+                is:{
+                    args:phoneExp,
+                    msg:"vous devez respecter le format de téléphone européen"
+                }
+            }
         }
+    },{
+        onDelete: 'CASCADE'
     },{
         updatedAt: false
     });

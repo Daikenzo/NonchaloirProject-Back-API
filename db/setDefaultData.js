@@ -28,23 +28,15 @@ module.exports = (RoleModel, UserModel) => {
                     });
                     // Create User
                     adminUser.forEach(user =>{
-                        const psw = user.password? user.password : 'mdp';
+                        const psw = user.password? user.password : 'admin';
                         return bcrypt.hash(psw, 10)
                             .then(hash =>{
                                 return UserModel.create({
-                                    email:user.email,
-                                    firstname:user.firstname,
-                                    lastname:user.lastname,
+                                    ...user, // Get All Exist attribute in object
                                     username:user.username? user.username : user.email,
-                                    adress:user.adress,
-                                    phone:user.phone,
-                                    birthday:user.birthday,
                                     password:hash,
                                     RoleId:role.id
                                 });
-                            })
-                            .catch((error) =>{
-                                console.error({Error : error.message}, 400)
                             });
                     });
                 }),
@@ -61,19 +53,11 @@ module.exports = (RoleModel, UserModel) => {
                         return bcrypt.hash(psw, 10)
                             .then(hash =>{
                                 return UserModel.create({
-                                    email:user.email,
-                                    firstname:user.firstname,
-                                    lastname:user.lastname,
+                                    ...user, // Get All Exist attribute in object
                                     username:user.username? user.username : user.email,
-                                    adress:user.adress,
-                                    phone:user.phone,
-                                    birthday:user.birthday,
                                     password:hash,
                                     RoleId:role.id
                                 });
-                            })
-                            .catch((error) =>{
-                                console.error({Error : error.message}, 400)
                             });
                     });
                 }),
@@ -90,26 +74,22 @@ module.exports = (RoleModel, UserModel) => {
                         return bcrypt.hash(psw, 10)
                             .then(hash =>{
                                 return UserModel.create({
-                                    email:user.email,
-                                    firstname:user.firstname,
-                                    lastname:user.lastname,
+                                    ...user, // Get All Exist attribute in object
                                     username:user.username? user.username : user.email,
-                                    adress:user.adress,
-                                    phone:user.phone,
-                                    birthday:user.birthday,
                                     password:hash,
                                     RoleId:role.id
                                 });
-                            })
-                            .catch((error) =>{
-                                console.error({Error : error.message}, 400)
                             });
                     });
                 })
-        );
-
-        
-            
+        );     
+    })
+    .catch(error =>{
+        if (error instanceof ValidationError){
+            return console.error({Error : error.message}, 400)
+        }
+        // Error servor
+        console.error({Error : error.message}, 500)
     });
     
 };

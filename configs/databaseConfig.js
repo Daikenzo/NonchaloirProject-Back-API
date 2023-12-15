@@ -3,19 +3,30 @@
 // Port D'écoute (Default)
 const listen = {
     host: `localhost`,
-    port: '8010'
+    port: process.env.port || 8010
 }
 
 // Databases
-const db = {
-    host:'localhost',
+const dbInfo = {
     dialect: 'mariadb', // Dialect Type
-    database: 'piscineprosc_fp_nonchaloirv1',
-    port: 3306,
-    user: 'root',
-    password: `cV$e&alj85k9kdSQ@N`,
+    logging:false,
+    default:{
+        host:'localhost',
+        port:3306,
+        database:'piscineprosc_fp_nonchaloirv1',
+        user:'root',
+        password:'cV$e&alj85k9kdSQ@N'
+    },
+    production:{
+        host:'',
+        port:3306,
+        database:'',
+        user:'',
+        password:``
+    }
 }
 
+// Export
 module.exports ={
-    listen,db
+    listen, dbInfo
 }

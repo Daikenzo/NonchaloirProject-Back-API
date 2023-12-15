@@ -1,13 +1,12 @@
 // Sequelize Function
 //Import
 const { Sequelize, DataTypes } = require('sequelize');
-const { listen, db } = require('../configs/databaseConfig');
-const roles = require('./data/roles.json');
-const usersDefault = require('./data/usersDb');
-const setDefaultData = require('./setDefaultData')
-
+const { listen, niquetoi} = require('../configs/databaseConfig');
+const { selectEnvDb } = require('../middleware/dbSwitch/databaseSwitcher');
+const setDefaultData = require('./setDefaultData');
 // Data Init
-let setDataSample = {roles: roles, users: usersDefault};
+const ProcessNodeEnvName = process.env.NODE_ENV || 'devellopement';
+const db = selectEnvDb(ProcessNodeEnvName);
 
 // Sequelize Init - Loggin:boolean = Sequelize Log activate
 const sequelize = new Sequelize(db.database, db.user, db.password, {
@@ -29,6 +28,7 @@ const defineRoleModel = require('../models/roleModelDefinition');
 const defineContactModel = require('../models/contactModelDefenition');
 const defineUserModel = require('../models/userModelDefinition');
 const defineEventModel = require('../models/eventSpectModelDefenition');
+
 // Table set
 const RoleModel = defineRoleModel(sequelize, DataTypes);
 const ContactModel = defineContactModel(sequelize, DataTypes);

@@ -5,8 +5,9 @@ const { UserModel, RoleModel } = require("../db/sequelizeSetup");
 // Hash JWT Init
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { jwtToken, defaultSaltRound } = require("../configs/secureConfig");
 // Secret key preset with bcrypt.fr
-const SECRET_KEY = "$2y$10$vNi4rfm4pSSkoCLWm5jYAuKCvDGBtMDZhikH4alYJz671uItPih6i";
+const SECRET_KEY = jwtToken.key;
 // Set Role Hiearchy
 const rolesHierarchy = {
   user: ["user", "Adherent Spectacteur / Soutiens", "Adherent Atelier"],
@@ -16,7 +17,7 @@ const rolesHierarchy = {
 // Create User
 const signUp = (req, res) => {
   bcrypt
-    .hash(req.body.password, 10)
+    .hash(req.body.password, defaultSaltRound)
     .then((hash) => {
         // Get Req Data
         const dataUser = { ...req.body, password: hash };
@@ -25,7 +26,7 @@ const signUp = (req, res) => {
         if (!dataUser.RoleId || dataUser.RoleId > 5) {dataUser.RoleId = 1}
         return UserModel.create(dataUser).then((result) => {
             res.status(201).json({ message: "Un utilisateur a bien été créé.", 
-            data: { ...result, password: "hidden" } });
+            data: { ...result, password: null } });
         });
     })
     .catch((error) => {
@@ -42,7 +43,8 @@ const signUp = (req, res) => {
 };
 // Login Conexion 
 const login = (req, res) => {
-  UserModel.findOne({ where: { email: req.body.identifiant } })
+
+  UserModel.scope('withPassword').findOne({ where: { email: req.body.identifiant } })
     .then((user) => {
       // console.log(user);
       if (!user) return res.status(404).json({ message: `L'utilisateur n'existe pas` });
@@ -58,10 +60,10 @@ const login = (req, res) => {
               },
             },
             SECRET_KEY,
-            { expiresIn: 60 * 60 }
+            { expiresIn: jwtToken.expiresIn }
           );
 
-          res.json({ message: "login réussi", data: token });
+          res.json({ message: "login réussi", data: token});
         } else {
           return res.status(406).json({ message: `Le mot de passe n'est pas correct` });
         }
@@ -76,10 +78,12 @@ const protect = (req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(401).json({ message: `Vous n'êtes pas authentifié` });
   }
+  
   const token = req.headers.authorization.split(" ")[1];
   if (token) {
     try {
       const decoded = jwt.verify(token, SECRET_KEY);
+      req.identifiant = decoded.data.email;
       req.username = decoded.data.username;
       req.email = decoded.data.email;
       // console.log(req.username)
@@ -132,7 +136,7 @@ const restrictToOwnUser = (modelParam) => {
       })
       .catch((err) => {
         const message = "Erreur lors de l'autorisation";
-        res.status(500).json({ message, data: err });
+        res.status(500).json({ message, data: err.message  });
       });
   };
 };

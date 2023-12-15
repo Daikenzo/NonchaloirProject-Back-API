@@ -1,6 +1,8 @@
 // User Model defenition
 
 module.exports = (sequelize, DataTypes) => {
+    // Phone Regex
+    const phoneExp = /^((\+)33|0|0033)[1-9](\d{2}){4}$/g; 
     return sequelize.define('Users', {
         id: {
             type: DataTypes.INTEGER,
@@ -38,7 +40,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         phone: {
-            type:DataTypes.INTEGER
+            type:DataTypes.STRING,
+            validate:{
+                is:{
+                    args:phoneExp,
+                    msg:"vous devez respecter le format de téléphone européen"
+                }
+            }
         },
         adress:{
             type:DataTypes.JSON,
@@ -51,9 +59,13 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue:DataTypes.NOW
         }
     }, {
+        onDelete: 'CASCADE', // Sur un effacement de données, supprimé toutes info en cascade
+        defaultScope: { // Default Scope when 
+            attributes: { exclude: ['password'] }
+        },
         scopes: {
-            withoutPassword: {
-                attributes: { exclude: ['password'] }
+            withPassword: { // For Jwt token
+                attributes: {}
             }
         }
     },

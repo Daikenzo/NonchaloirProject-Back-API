@@ -2,7 +2,6 @@
 
 # modules
 node_modules
-sources/*
 sources/images/*
 sources/document/*
 middleware

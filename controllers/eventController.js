@@ -3,6 +3,7 @@ const { checkIsDefaultValidatorErrorMessage } = require("./errorController");
 const { ValidationError } = require('sequelize');
 const { EventModel } = require('../db/sequelizeSetup');
 const bcrypt = require('bcrypt');
+const { defaultSaltRound } = require("../configs/secureConfig");
 
 // Find Event
 const findAllEvents = (req, res) => {
@@ -30,21 +31,46 @@ const findEventByPk = (req, res) => {
             res.status(500).json({ message: `Une erreur est survenue : ${error}` });
         });
 };
-
+// Create
 const createEvent = (req, res) => {
     // Init
     const newEvent = req.body;
     // Set
+    const checkPrice = (priceList) =>{
+    };
+    console.log(checkPrice)
+
     EventModel
         .create({
             name:newEvent.name,
             eventDate:newEvent.eventDate,
+            description:newEvent.description,
             type:newEvent.type?newEvent.type : "Spectacles",
             price:newEvent.price,
             creationDate:newEvent.creationDate,
+            localAdress:newEvent.adress,
+            localContactName:newEvent.contact.name,
+            localContactMail:newEvent.contact.email,
+            localContactPhone:newEvent.contact.phone
 
         })
+        .then((result) => {
+            res.status(201).json({ message: `L'évènement a bien été ajouté.`, data: result })
+        })
+        .catch((error) => {
+            // Redirect Error
+            if (error instanceof ValidationError) {
+              checkIsDefaultValidatorErrorMessage(error);
+              // Return Error 400
+              return res.status(400).json({ message: `${error.message}` });
+            }
+            // Default Error
+            res.status(500).json({ message: `Une erreur est survenue :  ${error}` })
+        })
 };
+// Update
+
+// Delete
 
 // Export
 module.exports = {findAllEvents, findEventByPk, createEvent}

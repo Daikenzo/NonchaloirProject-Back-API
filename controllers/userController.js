@@ -3,10 +3,12 @@ const { checkIsDefaultValidatorErrorMessage } = require("./errorController");
 const { ValidationError } = require('sequelize');
 const { UserModel } = require('../db/sequelizeSetup');
 const bcrypt = require('bcrypt');
+const { defaultSaltRound } = require("../configs/secureConfig");
 // Check User
 const findAllUsers = (req, res) => {
     console.log(UserModel);
-    UserModel.scope('withoutPassword')
+    UserModel
+        // .scope('withoutPassword')
         .findAll()
         .then(result => {
             res.json({ message: 'La liste des utilisateurs a bien été récupérée.', data: result });
@@ -18,7 +20,8 @@ const findAllUsers = (req, res) => {
 };
 
 const findUserByPk = (req, res) => {
-    UserModel.scope('withoutPassword')
+    UserModel
+        // .scope('withoutPassword')
         .findByPk(req.params.id)
         .then(result => {
             if (!result) {
@@ -39,7 +42,7 @@ const updateUser = (req, res) => {
             if (!result) {
                 res.status(404).json({ message: 'Aucun utilisateur trouvé' })
             } else {
-                return bcrypt.hash(req.body.password, 10)
+                return bcrypt.hash(req.body.password, defaultSaltRound)
                     .then(hash => {
                         const dataUser = { ...req.body, password: hash }
                         return result

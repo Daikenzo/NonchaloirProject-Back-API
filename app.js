@@ -7,7 +7,6 @@ const sequelize = require('./db/sequelizeSetup');
 const { listen } = require('./configs/databaseConfig');
 const routes = require('./routes/_routesList');
 const app = express();
-
 // Init Sequelize
 sequelize.initDb();
 

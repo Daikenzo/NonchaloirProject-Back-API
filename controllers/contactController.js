@@ -3,7 +3,7 @@ const { checkIsDefaultValidatorErrorMessage } = require("./errorController");
 const { ValidationError } = require('sequelize');
 const { ContactModel } = require('../db/sequelizeSetup');
 const bcrypt = require('bcrypt');
-
+const { defaultSalt } = require("../configs/secureConfig");
 // Find Contact
 exports.findAllContacts = (req, res) => {
     ContactModel
