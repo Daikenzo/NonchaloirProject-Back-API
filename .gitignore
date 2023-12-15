@@ -2,7 +2,9 @@
 
 # modules
 node_modules
-images/*
+sources/*
+sources/images/*
+sources/document/*
 middleware
 
 # Sample Secure Data 
@@ -13,4 +15,4 @@ adressDb.js
 desktop.ini
 
 ## Don't Ignore this
-!images/default.png
+!sources/images/default.png
