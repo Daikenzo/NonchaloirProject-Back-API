@@ -74,6 +74,8 @@ const deleteUser = (req, res) => {
             if (!result) {
                 res.status(404).json({ message: 'Aucun utilisateur trouvé' })
             } else {
+                if(result.dataValues.username === "Root") return res.status(401).json({message:
+                    `L'utilisateur Root est l'administrateur principal. Vous ne pouvez pas le supprimer`});
                 return result
                     .destroy()
                     .then(() => {

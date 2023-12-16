@@ -10,7 +10,7 @@ const authCtr = require('../controllers/authController');
 router
     .route('/')
     .get(contactCtr.findAllContacts)
-    // .post(authCtr.protect, authCtr.restrictTo("Editor"), contactCtr.createContactTicket)
+    .post(contactCtr.createContactTicket)
 
 router
     .route('/:id')

@@ -32,10 +32,42 @@ const findContactByPk = (req, res) => {
 };
 // Create Contact Ticket
 const createContactTicket = (req, res) => {
-    
+    const newContactForm = {...req.body}
+    ContactModel.create(newContactForm)
+        .then(contact =>{
+            res.status(201).json({message: `Le ticket de contact a bien été crée`, data:contact});
+        })
+        .catch(error =>{
+        // Redirect Error
+        if (error instanceof ValidationError) { 
+            checkIsDefaultValidatorErrorMessage(error);
+            // Return Error 400
+            return res.status(400).json({ message: `${error.message}` });
+          }
+          res.status(500).json({ message: `une erreur est survenue`, data: error.message });
+      });
 };
 // Update Contact Ticket
 
 // Delete Contact Ticket
+const deleteContactTicket = (req, res) =>{
+    ContactModel
+    .findByPk(req.params.id)
+    .then(result => {
+        if (!result) {
+            //throw new Error('Aucun coworking trouvé')
+            res.status(404).json({ message: `le ticket de contact n'existe pas` })
+        } else {
+            return result
+                .destroy()
+                .then(() => {
+                    res.json({ message: `ticket de contact supprimé : ${result.dataValues.id} `, data: result })
+                })
+        }
+    })
+    .catch(error => {
+        res.status(500).json({ message: `${error}` })
+    })
+}
 
-module.exports = {findAllContacts, findContactByPk};
+module.exports = {findAllContacts, findContactByPk, createContactTicket, deleteContactTicket};

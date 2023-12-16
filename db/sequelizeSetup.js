@@ -29,6 +29,7 @@ const defineContactModel = require('../models/contactModelDefenition');
 const defineUserModel = require('../models/userModelDefinition');
 const defineEventModel = require('../models/eventSpectModelDefenition');
 const defineReservationModel = require('../models/reservationModelDefenition');
+// const defineContactTicketModel = require('../models/contactTicketModelDefenition');
 
 // Table set
 const RoleModel = defineRoleModel(sequelize, DataTypes);
@@ -36,6 +37,7 @@ const ContactModel = defineContactModel(sequelize, DataTypes);
 const UserModel = defineUserModel(sequelize, DataTypes);
 const EventModel = defineEventModel(sequelize,DataTypes);
 const ReservationModel = defineReservationModel(sequelize,DataTypes);
+// const ContactTicketModel = defineContactTicketModel(sequelize,DataTypes);
 
 // Table Jointure
 RoleModel.hasMany(UserModel);
@@ -43,6 +45,19 @@ UserModel.belongsTo(RoleModel);
 
 UserModel.hasMany(EventModel);
 EventModel.belongsTo(UserModel);
+
+// ContactFormList Table Define
+UserModel.belongsToMany(ContactModel, { 
+    through: 'contactFormList', 
+    otherKey:'TitcketId',
+    updatedAt:false, createdAt:false
+});
+ContactModel.belongsToMany(UserModel, { 
+    through: 'contactFormList',
+    foreignKey:'TitcketId',
+    updatedAt:false, createdAt:false
+});
+
 
 // Database Initialisation
 const initDb = () => {

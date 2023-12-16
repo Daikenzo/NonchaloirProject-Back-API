@@ -55,6 +55,9 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
+        senderAdress:{
+            type:DataTypes.JSON
+        },
         sendermessage:{
             type:DataTypes.BLOB('medium'),
             allowNull:false,
@@ -68,7 +71,13 @@ module.exports = (sequelize, DataTypes) => {
                     msg:"Le Nom ne peut pas être vide"
                 }
             }
+        },
+        statusState:{
+            type:DataTypes.ENUM,
+            values: ['Progress','Valided', 'Deleted'],
+            defaultValue:'Progress'
         }
+
     },{
         updatedAt: false
     });
