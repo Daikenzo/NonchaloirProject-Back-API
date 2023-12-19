@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
             type:DataTypes.STRING,
             allowNull:false,
             validate:{
-                isAlpha:true,
                 notNull:{
                     args:true,
                     msg:"Le Prénom ne peut pas être vide"
@@ -25,7 +24,6 @@ module.exports = (sequelize, DataTypes) => {
             type:DataTypes.STRING,
             allowNull:false,
             validate:{
-                isAlpha:true,
                 notNull:{
                     args:true,
                     msg:"Le Nom ne peut pas être vide"
@@ -42,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
                 },
                 notNull:{
                     args:true,
-                    msg:"Le Nom ne peut pas être vide"
+                    msg:"L'adresse mail'ne peut pas être vide"
                 }
             }
         },
@@ -58,17 +56,17 @@ module.exports = (sequelize, DataTypes) => {
         senderAdress:{
             type:DataTypes.JSON
         },
-        sendermessage:{
-            type:DataTypes.BLOB('medium'),
+        subjectMessage:{
+            type:DataTypes.TEXT,
             allowNull:false,
             validate:{
                 notEmpty:{
                     args:true,
-                    msg:"Le Nom ne peut pas être vide"
+                    msg:"Le ne champ ne peux pas être vide"
                 },
                 notNull:{
                     args:true,
-                    msg:"Le Nom ne peut pas être vide"
+                    msg:"Le message ne peut pas être vide"
                 }
             }
         },

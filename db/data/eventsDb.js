@@ -11,6 +11,7 @@ const SampleEvent = [
             Gustave, Fernand et René résident tous les trois dans un hospice pour anciens combattants. Ils passent l'essentiel de leur journée sur la terrasse à prendre l'air. Pas la terrasse principale, mais celle de derrière, plus isolée et plus intime qui offre une vue imprenable sur une colline couverte de peupliers. Entre discussions, souvenirs et soif d'ailleurs, les trois hommes rêvent de partir voir ce qui se trouve derrière les peupliers. Mais arriveront-ils seulement à tenter cette aventure?
             Un spectacle mêlant avec une tendresse infinie humour et poésie.
         `,
+        // NB : créer une table actorRole pour associé les role
         "actorRole":[ // Mariadb peut marcher avec ce type de json avec [{}] ?
             {
                 "nom":"René",
