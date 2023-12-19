@@ -1,7 +1,7 @@
 // Init
 const { checkIsDefaultValidatorErrorMessage } = require("./errorController");
 const { ValidationError } = require('sequelize');
-const { UserModel } = require('../db/sequelizeSetup');
+const { UserModel, RoleModel } = require('../db/sequelizeSetup');
 const bcrypt = require('bcrypt');
 const { defaultSaltRound } = require("../configs/secureConfig");
 // Check User
@@ -22,7 +22,9 @@ const findAllUsers = (req, res) => {
 const findUserByPk = (req, res) => {
     UserModel
         // .scope('withoutPassword')
-        .findByPk(req.params.id)
+        .findByPk(req.params.id, {
+            include: RoleModel
+          })
         .then(result => {
             if (!result) {
                 res.status(404).json({ message: 'Aucun utilisateur trouvé' });

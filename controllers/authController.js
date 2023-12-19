@@ -56,7 +56,8 @@ const login = (req, res) => {
                 email: req.body.identifiant,
                 id: user.id,
                 role: user.RoleId,
-                username:user.username
+                username:user.username,
+                name:user.firstname
               },
             },
             SECRET_KEY,
@@ -87,7 +88,6 @@ const protect = (req, res, next) => {
       req.username = decoded.data.username;
       req.email = decoded.data.email;
       // Token Valid
-      // console.log(req.email)
       next();
     } catch (error) {
       res.status(403).json({ message: `Le jeton n'est pas valide` });

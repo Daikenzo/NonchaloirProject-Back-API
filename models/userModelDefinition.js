@@ -33,7 +33,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         firstname:{
             type: DataTypes.STRING,
+            allowNull:false,
             validate: {
+                notNull:{
+                    msg:"Le prénom doit être rempli"
+                }
             }
         },
         lastname:{

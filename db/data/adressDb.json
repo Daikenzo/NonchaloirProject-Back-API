@@ -1,0 +1,108 @@
+{
+    "Siege":{
+        "localName":"Théâtre du Nonchaloir",
+        "adress":{
+            "number":"16",
+            "street":"Impasse d' Ornon, Château d'Ornon",
+            "postcode":33170,
+            "city":"Gradignan"
+        },
+        "contact":{
+            "name":"Monique Dardères",
+            "email":"theatre.nonchaloir@gmail.com",
+            "phone":"0652634844",
+            "website":"http://www.theatrenonchaloir.fr",
+            "socialNetwork":{
+                "twitter":"theatrenonchaloir"
+            }
+        }
+    },
+    "Ecomusee":{
+        "localName":"Ecomusée de la vigne et du vin - Lycée des Graves",
+        "adress":{
+            "number":"238",
+            "street":"Cours du Général de Gaulle (Entrée au fond du parking)",
+            "postcode":33170,
+            "city":"Gradignan"
+        },
+        "nbPlaceMax":65,
+        "placePrice": {
+            "normal":12,
+            "adherent":5,
+            "junior":8,
+            "group":10
+        },
+        "contact":{
+            "name":"",
+            "phone":"0556890079",
+            "email":"",
+            "website":""
+        }
+    },
+    "PoleCultureMartillac":{
+        "localName":"Pôle Culturel de Martillac",
+        "adress":{
+            "number":"1",
+            "street":"Place Marcel Vayssière",
+            "postcode":33650,
+            "city":"Martillac"
+        },
+        "nbPlaceMax":125,
+        "placePrice": {
+            "normal":10,
+            "adherent":0,
+            "junior":6,
+            "group":8
+        },
+        "contact":{
+            "name":"",
+            "phone":"",
+            "email":"",
+            "website":""
+        }
+    },
+    "Solarium":{
+        "localName":"Salle du SOLARIUM",
+        "adress":{
+            "number":"24",
+            "street":"Rue du Solarium",
+            "postcode":33170,
+            "city":"Gradignan"
+        },
+        "nbPlaceMax":400,
+        "placePrice": {
+            "normal":12,
+            "adherent":0,
+            "student":8,
+            "group":10
+        },
+        "contact":{
+            "name":"",
+            "phone":"0556756520",
+            "email":"",
+            "website":"https://www.t4saisons.com"
+        }
+    },
+    "T4S":{
+        "localName":"Théâtre des 4 Saisons",
+        "adress":{
+            "number":"",
+            "street":"Allée de Pfungstadt, Parc de Mandavit",
+            "postcode":33170,
+            "city":"Gradignan"
+        },
+        "nbPlaceMax":300,
+        "placePrice": {
+            "normal":12,
+            "adherent":0,
+            "student":8,
+            "group":10
+        },
+        "contact":{
+            "name":"",
+            "phone":"0556899823",
+            "email":"billetterie-t4s@ville-gradignan.fr",
+            "website":"https://www.t4saisons.com"
+        }
+    }
+}
