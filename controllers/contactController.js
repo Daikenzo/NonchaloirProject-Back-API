@@ -3,7 +3,7 @@ const { checkIsDefaultValidatorErrorMessage } = require("./errorController");
 const { ValidationError } = require('sequelize');
 const { ContactModel } = require('../db/sequelizeSetup');
 const bcrypt = require('bcrypt');
-const { defaultSalt } = require("../configs/secureConfig");
+const { defaultSaltRound } = require("../configs/secureConfig");
 // Find Contact
 const findAllContacts = (req, res) => {
     ContactModel
@@ -48,6 +48,33 @@ const createContactTicket = (req, res) => {
       });
 };
 // Update Contact Ticket
+const updateContactTicket = (req, res) => {
+    ContactModel
+        .findByPk(req.params.id)
+        .then(result => {
+            if (!result) {
+                res.status(404).json({ message: `Le Ticket N°${req.params.id} n'a pas été trouvé` })
+            } else {
+                // "statusState": "Progress"
+                return result
+                    .update(req.body)
+                    .then(() => {
+                        res.json({ message: `Ticket modifié : ${result.dataValues.id} `, data: result })
+                    });
+            };
+        })
+        .catch(error => {
+            // Redirect Error
+            if (error instanceof ValidationError) {
+                // check and rename if Default Error Message
+                checkIsDefaultValidatorErrorMessage(error);
+                // Return Error 400
+                return res.status(400).json({ message: `${error.message}` });
+            }
+            // Internal Error
+            res.status(500).json({ message: error.message });
+        });
+};
 
 // Delete Contact Ticket
 const deleteContactTicket = (req, res) =>{
@@ -70,4 +97,4 @@ const deleteContactTicket = (req, res) =>{
     })
 }
 
-module.exports = {findAllContacts, findContactByPk, createContactTicket, deleteContactTicket};
+module.exports = {findAllContacts, findContactByPk, createContactTicket, updateContactTicket, deleteContactTicket};

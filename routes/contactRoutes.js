@@ -4,6 +4,7 @@ const router = express.Router();
 // Init Conthrollers
 const contactCtr = require('../controllers/contactController');
 const authCtr = require('../controllers/authController');
+const { ContactModel, UserModel } = require('../db/sequelizeSetup');
 // const {  } = require('../db/sequelizeSetup');
 
 // Router Set
@@ -15,8 +16,8 @@ router
 router
     .route('/:id')
     .get(contactCtr.findContactByPk)
-    // .put(authCtr.protect, eventCtr.updateEvent)
-    // .delete(authCtr.protect, authCtr.restrictToOwnUser(EventModel), eventCtr.deleteEvent)
+    .put(authCtr.protect, authCtr.restrictTo("Editor"), contactCtr.updateContactTicket)
+    .delete(authCtr.protect, authCtr.restrictTo("Admin"), contactCtr.deleteContactTicket)
 
 
 // Export Module
