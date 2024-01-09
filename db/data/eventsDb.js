@@ -44,20 +44,20 @@ const SampleEvent = [
             
             Dégustation boissons et gâteaux après le spectacle.
         `,
-        "actorRole":{
-            1:{
+        "actorRole":[
+            {
                 "nom":"René",
                 "actor":"Marc Laurence"
             },
-            2:{
+            {
                 "nom":"Fernand",
                 "actor":"Jean-Yves Lefebvre"
             },
-            3:{
+            {
                 "nom":"Gustave",
                 "actor":"Jean-Pierre Rebeillard"
             }
-        },
+        ],
         "Author":"Karl Valentin",
         "directing":["Romain PIERROT"],
         "price":localAdress["Ecomusee"].placePrice,
@@ -77,20 +77,19 @@ const SampleEvent = [
             Première mise en scène Jérémy NARDOT pour le Théâtre du Nonchaloir
         `,
         "orginalAuthor":"Jérémy NARDOT",
-        "actorRole":{
-            1:{
+        "actorRole":[{
                 "nom":"René",
                 "actor":"Marc Laurence"
             },
-            2:{
+            {
                 "nom":"Fernand",
                 "actor":"Jean-Yves Lefebvre"
             },
-            3:{
+            {
                 "nom":"Gustave",
                 "actor":"Jean-Pierre Rebeillard"
             }
-        },
+        ],
         "directing":["Jérémy NARDOT"],
         "price":localAdress["T4S"].placePrice,
         "localContactName":localAdress["T4S"].contact.name,

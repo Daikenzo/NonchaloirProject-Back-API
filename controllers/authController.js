@@ -35,6 +35,7 @@ const signUp = (req, res) => {
         // check and rename if Default Error Message
         checkIsDefaultValidatorErrorMessage(error);
         // Return Error 400
+        console.log(error.message)
         return res.status(400).json({ message: `${error.message}` });
       }
       // Default Error

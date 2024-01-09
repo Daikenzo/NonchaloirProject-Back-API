@@ -29,7 +29,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         password: DataTypes.STRING,
         username:{
-            type:DataTypes.STRING
+            type:DataTypes.STRING,
+            unique: {
+                msg: "L'identifiant avec cet Username existe déjà"
+            }
         },
         firstname:{
             type: DataTypes.STRING,

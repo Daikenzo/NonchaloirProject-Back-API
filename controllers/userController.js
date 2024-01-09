@@ -47,6 +47,18 @@ const updateUser = (req, res) => {
                 return bcrypt.hash(req.body.password, defaultSaltRound)
                     .then(hash => {
                         const dataUser = { ...req.body, password: hash }
+                        // Block Root Admin Udpate
+                        if (result.dataValues.username === "Root"){
+                            if((
+                                dataUser.RoleId && (dataUser.RoleId !== result.dataValues.RoleId)
+                                ) || (
+                                    dataUser.username && dataUser.username !== "Root"
+                                )
+                                ) return (
+                                res.status(401).json({message:
+                                `L'utilisateur Root est l'administrateur principal et il n'est pas modifiable`})
+                                );
+                        }
                         return result
                             .update(dataUser)
                             .then(() => {

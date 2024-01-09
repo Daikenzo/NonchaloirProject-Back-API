@@ -28,6 +28,7 @@ const defineRoleModel = require('../models/roleModelDefinition');
 const defineContactModel = require('../models/contactModelDefenition');
 const defineUserModel = require('../models/userModelDefinition');
 const defineEventModel = require('../models/eventSpectModelDefenition');
+const defineEventRoleActModel = require("../models/EvActorModelDefenition");
 const defineReservationModel = require('../models/reservationModelDefenition');
 // const defineContactTicketModel = require('../models/contactTicketModelDefenition');
 
@@ -36,6 +37,7 @@ const RoleModel = defineRoleModel(sequelize, DataTypes);
 const ContactModel = defineContactModel(sequelize, DataTypes);
 const UserModel = defineUserModel(sequelize, DataTypes);
 const EventModel = defineEventModel(sequelize,DataTypes);
+const EventRoleActModel = defineContactModel(sequelize,DataTypes);
 const ReservationModel = defineReservationModel(sequelize,DataTypes);
 // const ContactTicketModel = defineContactTicketModel(sequelize,DataTypes);
 
