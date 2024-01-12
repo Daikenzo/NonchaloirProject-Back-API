@@ -10,12 +10,12 @@ const { ContactModel, UserModel } = require('../db/sequelizeSetup');
 // Router Set
 router
     .route('/')
-    .get(contactCtr.findAllContacts)
+    .get(authCtr.protect, authCtr.restrictTo("Admin"), contactCtr.findAllContacts)
     .post(contactCtr.createContactTicket)
 
 router
     .route('/:id')
-    .get(contactCtr.findContactByPk)
+    .get(authCtr.protect, authCtr.restrictTo("Editor"), contactCtr.findContactByPk)
     .put(authCtr.protect, authCtr.restrictTo("Editor"), contactCtr.updateContactTicket)
     .delete(authCtr.protect, authCtr.restrictTo("Admin"), contactCtr.deleteContactTicket)
 

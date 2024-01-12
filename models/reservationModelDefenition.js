@@ -20,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
                     msg:"Le nom du ticket doit être entre 3 et 10 caractères"
                 }
             }
+        },
+        paymentState:{
+            type:DataTypes.ENUM,
+            // Reimbursed is for a paid status when Event has been canceled
+            values: ['Unpaid','Paid', 'Reimbursed'],
+            defaultValue:'Unpaid'
         }
 
     },{

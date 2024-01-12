@@ -27,9 +27,9 @@ const findUserByPk = (req, res) => {
           })
         .then(result => {
             if (!result) {
-                res.status(404).json({ message: 'Aucun utilisateur trouvé' });
+                return res.status(404).json({ message: 'Aucun utilisateur trouvé' });
             } else {
-            res.json({ message: `L'utilisateur N°${req.params.id} a bien été récupérée.`, data: result });
+                return res.json({ message: `L'utilisateur N°${req.params.id} a bien été récupérée.`, data: result });
         }})
         .catch(error => {
             res.status(500).json({ message: error });
@@ -44,6 +44,7 @@ const updateUser = (req, res) => {
             if (!result) {
                 res.status(404).json({ message: 'Aucun utilisateur trouvé' })
             } else {
+                // Cryptage pwd
                 return bcrypt.hash(req.body.password, defaultSaltRound)
                     .then(hash => {
                         const dataUser = { ...req.body, password: hash }
@@ -55,14 +56,17 @@ const updateUser = (req, res) => {
                                     dataUser.username && dataUser.username !== "Root"
                                 )
                                 ) return (
-                                res.status(401).json({message:
-                                `L'utilisateur Root est l'administrateur principal et il n'est pas modifiable`})
-                                );
-                        }
+                                res.status(401).json({ message:
+                                    `L'utilisateur Root est l'administrateur principal et il n'est pas modifiable`
+                                    }
+                                ));
+                        };
+                        // Update Data
                         return result
                             .update(dataUser)
                             .then(() => {
-                                res.json({ message: `Utilisateur modifié : ${result.dataValues.id} `, 
+                                res.json({ message: 
+                                    `Utilisateur modifié : ${result.dataValues.id}`, 
                                 data: result });
                             });
                     });

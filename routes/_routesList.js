@@ -17,6 +17,10 @@ const routesList = [
         router:'./routes/eventRoutes'
     },
     {   
+        path:`${defaultPath}/actors`,
+        router:'./routes/evActRoleRoutes'
+    },
+    {   
         path:`${defaultPath}/contacts`,
         router:'./routes/contactRoutes'
     },

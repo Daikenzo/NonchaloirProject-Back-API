@@ -3,12 +3,12 @@ const express = require('express');
 const router = express.Router();
 // Init Conthrollers
 const roleCtr = require('../controllers/roleController');
-// const authController = require('../controllers/authController');
+const authCtr = require('../controllers/authController');
 
 // Router Set
 router
     .route('/')
-    .get(roleCtr.findAllRoles)
+    .get(authCtr.protect, authCtr.restrictTo("Editor"), roleCtr.findAllRoles)
 
 
 

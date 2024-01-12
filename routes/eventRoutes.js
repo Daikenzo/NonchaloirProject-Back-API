@@ -3,21 +3,24 @@ const express = require('express');
 const router = express.Router();
 // Init Conthrollers
 const eventCtr = require('../controllers/eventController');
+const ActRoleCtr = require('../controllers/evActorRoleController');
 const authCtr = require('../controllers/authController');
 const { EventModel } = require('../db/sequelizeSetup');
 
 // Router Set
 router
     .route('/')
-    .get(eventCtr.findAllEvents)
+    .get(authCtr.protect, authCtr.restrictTo("Editor"), eventCtr.findAllEvents)
     .post(authCtr.protect, authCtr.restrictTo("Editor"), eventCtr.createEvent)
 
 router
     .route('/:id')
-    .get(eventCtr.findEventByPk)
-    .put(authCtr.protect, authCtr.restrictTo("Editor"), eventCtr.updateEvent)
+    .get(authCtr.protect, authCtr.restrictTo("Editor"), eventCtr.findEventByPk)
+    .put(authCtr.protect, authCtr.restrictToOwnUser(EventModel), eventCtr.updateEvent)
     .delete(authCtr.protect, authCtr.restrictTo("Admin"), eventCtr.deleteEvent)
-
+router
+    .route('/:id/actor')
+    .get(authCtr.protect, authCtr.restrictTo("Editor"), eventCtr.findAllActRoleListByEvent)
 
 // Export Module
 module.exports = router;

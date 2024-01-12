@@ -9,7 +9,7 @@ const { defaultSaltRound } = require("../configs/secureConfig");
 const findAllEvents = (req, res) => {
     EventModel
         .findAll({
-            include:EvRoleActModel
+            include:[EvRoleActModel, ReservationModel]
         })
         .then(result => {
             res.json({ message: 'La liste des Évènements/Spectables a bien été récupérée.', data: result });
@@ -22,7 +22,7 @@ const findAllEvents = (req, res) => {
 const findEventByPk = (req, res) => {
     EventModel
         .findByPk(req.params.id, {
-            include:ReservationModel
+            include:[EvRoleActModel, ReservationModel]
         })
         .then(result => {
             if (!result) {
@@ -35,29 +35,61 @@ const findEventByPk = (req, res) => {
             res.status(500).json({ message: `Une erreur est survenue : ${error}` });
         });
 };
+// Get ActRole List by 
+const findAllActRoleListByEvent = (req, res) => {
+    EventModel.findOne({ where: {id:req.params.id} })
+        .then(event => {
+            if(!event) { // If Unkown User
+                return res.status(404).json({ 
+                    message: `L'évènement n'a pas été trouvé.` 
+                });
+            };
+            EvRoleActModel
+            .findAll({ where: {EventId:event.id} })
+            .then(result => {
+                if(!result) { // If Unkown User
+                    return res.status(404).json({ 
+                        message: `La liste est vide` 
+                    });
+                };
+                return res.json({ 
+                    message: 'La liste des rôles a été récupéré', data: result 
+                });
+            });
+        })
+        .catch(error => {
+            res.status(500).json({ message: `Une erreur est survenue : ${error}` });
+        });
+};
+
 // Create
 const createEvent = (req, res) => {
+    console.log(req.body);
     // Verif Valid User
     UserModel.findOne({ where: { username: req.username } })
     .then(user => {
+        
         if (!user) { // If Unkown User
             return res.status(404).json({ message: `L'utilisateur n'a pas été trouvé.` })
         }
+        
         // Set Event Data
-        const reqData = req.body;
+        const reqData = req.body
+        console.log("test", reqData)
         const newEvent = {
             UserId:user.id,
-            name:reqData.name,
-            eventDate:reqData.eventDate,
+            name:req.body.name,
             creationDate:reqData.creationDate,
             description:reqData.description,
             type:reqData.type?reqData.type : "Spectacles",
-            price:reqData.price,
+            price:reqData.price? reqData.price : {},
             localAdress:reqData.adress,
             localContactName:reqData.contact.name,
             localContactMail:reqData.contact.email,
             localContactPhone:reqData.contact.phone
         };
+        console.log("event", newEvent)
+        
         // Set Default Value
         if (newEvent.price.normal){ // Price Value
             if(newEvent.price.adherent === null) newEvent.price.adherent = 0;
@@ -66,6 +98,7 @@ const createEvent = (req, res) => {
             if(newEvent.price.student=== null && !newEvent.price.junior) newEvent.price.student = 8;
         };
         // Create Into database
+        
         EventModel.create(newEvent)
             .then((event)=>{
                 res.status(201).json({ message: `L'évènement a bien été ajouté.`, data: event })
@@ -145,4 +178,4 @@ const deleteEvent = (req, res) =>{
     })
 }
 // Export
-module.exports = {findAllEvents, findEventByPk, createEvent, updateEvent, deleteEvent}
+module.exports = {findAllEvents, findEventByPk, createEvent, updateEvent, deleteEvent, findAllActRoleListByEvent}

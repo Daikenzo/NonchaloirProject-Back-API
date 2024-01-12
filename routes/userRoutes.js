@@ -10,7 +10,7 @@ const { UserModel } = require('../db/sequelizeSetup');
 // Router Set
 router
     .route('/')
-    .get(userCtr.findAllUsers)
+    .get(authCtr.protect, authCtr.restrictTo("Admin"), userCtr.findAllUsers)
 
 router
     .route('/login')
