@@ -77,7 +77,7 @@ module.exports = (RoleModel, UserModel) => {
                                     ...user, // Get All Exist attribute in object
                                     username:user.username? user.username : user.email,
                                     password:hash,
-                                    RoleId:role.id
+                                    RoleId:user.RoleId? user.RoleId : role.id
                                 });
                             });
                     });

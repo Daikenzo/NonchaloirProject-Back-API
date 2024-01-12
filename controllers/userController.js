@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const { defaultSaltRound } = require("../configs/secureConfig");
 // Check User
 const findAllUsers = (req, res) => {
-    console.log(UserModel);
+    // console.log(UserModel);
     UserModel
         // .scope('withoutPassword')
         .findAll()

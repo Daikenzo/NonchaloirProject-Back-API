@@ -56,7 +56,6 @@ const findAllActRoleListByEvent = (req, res) => {
         });
 };
 
-
 // Create Actor Role
 const createActRole = (req,res) => {
     // Check if Event is here
@@ -73,7 +72,7 @@ const createActRole = (req,res) => {
                 EventId:event.id,
                 roleName:req.body.role,
                 roleActor: req.body.actor
-            }
+            };
             // Check is roleName exist from this event id
             const checkExistActRoleOfEvent = event.ActorRoleLists.filter( (arr) => arr.dataValues.roleName === newActRoleForm.roleName)
             if(checkExistActRoleOfEvent.length !== 0){
@@ -89,7 +88,7 @@ const createActRole = (req,res) => {
                     message: `Le Rôle de la pièce a été enregistré`, 
                     data:ActorRole
                 });
-            })
+            });
         })
         .catch(error =>{
         // Redirect Error
@@ -100,6 +99,17 @@ const createActRole = (req,res) => {
           }
           res.status(500).json({ message: `une erreur est survenue`, data: error.message });
       });
-}
+};
+// Update
+const updateActRole = (req, res) =>{
+    console.log("Update Act Role controler")
+};
+// Delete
+const deleteActRole = (req, res) =>{
+    console.log("Delete Act Role controler")
+};
 
-module.exports = {findAllActRoles, findActRoleByPk, createActRole}
+// Export
+module.exports = {
+    findAllActRoles, findActRoleByPk, createActRole, updateActRole, deleteActRole
+};

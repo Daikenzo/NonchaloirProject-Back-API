@@ -64,7 +64,7 @@ const findAllActRoleListByEvent = (req, res) => {
 
 // Create
 const createEvent = (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     // Verif Valid User
     UserModel.findOne({ where: { username: req.username } })
     .then(user => {
@@ -75,7 +75,7 @@ const createEvent = (req, res) => {
         
         // Set Event Data
         const reqData = req.body
-        console.log("test", reqData)
+        // console.log("test", reqData)
         const newEvent = {
             UserId:user.id,
             name:req.body.name,
@@ -88,7 +88,7 @@ const createEvent = (req, res) => {
             localContactMail:reqData.contact.email,
             localContactPhone:reqData.contact.phone
         };
-        console.log("event", newEvent)
+        // console.log("event", newEvent)
         
         // Set Default Value
         if (newEvent.price.normal){ // Price Value

@@ -50,13 +50,21 @@ const createReservation = (req, res) =>{
                 message: `L'utilisateur n'a pas été trouvé.` 
             });
         };
+        const eventId = req.body.EventId || req.body.eventId
         return EventModel
-        .findOne({ where: {id:req.body.eventId} })
+        .findOne({ where: {id:eventId}, include:ReservationModel })
         .then(event => {
             if(!event){
                 // If Unkown Event
                 return res.status(404).json({ 
                     message: `L'évènement n'a pas été trouvé.` 
+                });
+            };
+            // Check is roleName exist from this event id
+            const checkExistReservLabel = event.Reservations.filter( (arr) => arr.dataValues.label === req.body.label)
+            if(checkExistReservLabel.length !== 0){
+                return res.status(400).json({
+                    message:`Cette étiquette de place est déjà défini`
                 });
             };
             // Create Reservation
@@ -83,7 +91,7 @@ const createReservation = (req, res) =>{
         })
     })
     .catch(error => {
-        console.log(error)
+        // console.log(error)
         if (error instanceof ValidationError) {
             checkIsDefaultValidatorErrorMessage(error);
             // Return Error 400
@@ -114,10 +122,9 @@ const updateReservation = (req, res) =>{
             ...reservation,
             UserId: reservation.UserId, // Block UserId Update
             EventId: reservation.EventId, // Block EventId Update
-            label:req.body.label && req.body.label,
+            label:reservation.label, //req.body.label && req.body.label,
             paymentState: payment
         }
-        
         EventModel.create(NewReservData)
             .then((event)=>{
                 res.status(201).json({ 

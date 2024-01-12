@@ -101,6 +101,15 @@ module.exports = (sequelize, DataTypes) => {
                     msg:"vous devez respecter le format de téléphone européen"
                 }
             }
+        },
+        localContactWebsite:{
+            type:DataTypes.STRING,
+            validate:{
+                isUrl:{
+                    args:true,
+                    msg:"Veuillez entrez un site valide"
+                }
+            }
         }
     },{
         onDelete: 'CASCADE'

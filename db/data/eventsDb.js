@@ -6,7 +6,7 @@ const SampleEvent = [
         "type":"Spectacles",
         "localName":localAdress["Ecomusee"].localName,
         "localAdress":localAdress["Ecomusee"].adress,
-        "eventDate":`2024-01-27T19:33:45.000Z`,
+        "eventDate":new Date('2024-01-27T19:33:45.000Z'),
         "description":`
             Gustave, Fernand et René résident tous les trois dans un hospice pour anciens combattants. Ils passent l'essentiel de leur journée sur la terrasse à prendre l'air. Pas la terrasse principale, mais celle de derrière, plus isolée et plus intime qui offre une vue imprenable sur une colline couverte de peupliers. Entre discussions, souvenirs et soif d'ailleurs, les trois hommes rêvent de partir voir ce qui se trouve derrière les peupliers. Mais arriveront-ils seulement à tenter cette aventure?
             Un spectacle mêlant avec une tendresse infinie humour et poésie.
@@ -38,7 +38,7 @@ const SampleEvent = [
         "type":"Spectacles",
         "localName":localAdress["Ecomusee"].localName,
         "localAdress":localAdress["Ecomusee"].adress,
-        "eventDate":`2024-04-14T15:00:00.000Z`,
+        "eventDate":new Date(`2024-04-14T15:00:00.000Z`),
         "description":`
             Une histoire drôle, étonnante, parfois grinçante
             
@@ -71,7 +71,7 @@ const SampleEvent = [
         "type":"Spectacles",
         "localName":localAdress["T4S"].localName,
         "localAdress":localAdress["T4S"].placePrice,
-        "eventDate":`2024-06-02T19:00:00.000Z`,
+        "eventDate":new Date(`2024-06-02T19:00:00.000Z`),
         "description":`
             A CERISAIE de Tchekhov
             Première mise en scène Jérémy NARDOT pour le Théâtre du Nonchaloir
@@ -102,9 +102,9 @@ const SampleEvent = [
         "type":"Spectacles",
         "localName":localAdress["Solarium"].localName,
         "localAdress":localAdress["Solarium"].placePrice,
-        "eventDate":`2024-06-22T20:00:00.000Z`,
+        "eventDate":new Date(`2024-06-22T20:00:00.000Z`),
         "description":`2 mises en scène de Romain PIERROT et Jérémy Nardot`,
-        "roleActor":{},
+        "roleActor":[],
         "directing":["Romain PIERROT","Jérémy NARDOT"],
         "price":localAdress["Solarium"].placePrice,
         "localContactName":localAdress["Solarium"].contact.name,
