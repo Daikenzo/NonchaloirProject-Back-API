@@ -15,8 +15,8 @@ router
 router
     .route('/:id')
     .get(eventCtr.findEventByPk)
-    // .put(authCtr.protect, eventCtr.updateEvent)
-    // .delete(authCtr.protect, authCtr.restrictToOwnUser(EventModel), eventCtr.deleteEvent)
+    .put(authCtr.protect, authCtr.restrictTo("Editor"), eventCtr.updateEvent)
+    .delete(authCtr.protect, authCtr.restrictTo("Admin"), eventCtr.deleteEvent)
 
 
 // Export Module

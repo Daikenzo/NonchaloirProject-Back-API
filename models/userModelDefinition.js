@@ -40,11 +40,19 @@ module.exports = (sequelize, DataTypes) => {
             validate: {
                 notNull:{
                     msg:"Le prénom doit être rempli"
+                },
+                notEmpty: {
+                    msg:"Le prénom doit être rempli"
                 }
             }
         },
         lastname:{
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg:"Le nom doit être rempli"
+                }
+            }
         },
         phone: {
             type:DataTypes.STRING,

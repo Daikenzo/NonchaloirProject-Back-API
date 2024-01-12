@@ -1,14 +1,16 @@
 // Import & Init
 const { checkIsDefaultValidatorErrorMessage } = require("./errorController");
 const { ValidationError } = require('sequelize');
-const { UserModel, EventModel } = require('../db/sequelizeSetup');
+const { UserModel, EventModel, EvRoleActModel, ReservationModel} = require('../db/sequelizeSetup');
 const bcrypt = require('bcrypt');
 const { defaultSaltRound } = require("../configs/secureConfig");
 
 // Find Event
 const findAllEvents = (req, res) => {
     EventModel
-        .findAll()//{ include: ReviewModel })
+        .findAll({
+            include:EvRoleActModel
+        })
         .then(result => {
             res.json({ message: 'La liste des Évènements/Spectables a bien été récupérée.', data: result });
         })
@@ -19,7 +21,9 @@ const findAllEvents = (req, res) => {
 
 const findEventByPk = (req, res) => {
     EventModel
-        .findByPk(req.params.id)
+        .findByPk(req.params.id, {
+            include:ReservationModel
+        })
         .then(result => {
             if (!result) {
                 res.status(404).json({ message: `L'élément ayant pour id ${req.params.id} n'existe pas.` });
@@ -94,12 +98,51 @@ const createEventWithImage = (req, res) => {
 // Update
 const updateEvent = (req, res) =>{
     // Init
-    console.log("updateEvent");
+    EventModel
+    .findByPk(req.params.id)
+        .then(result => {
+            if (!result) {
+                res.status(404).json({ message: `Le Ticket N°${req.params.id} n'a pas été trouvé` })
+            } else {
+                return result
+                    .update(req.body)
+                    .then(() => {
+                        res.json({ message: `Ticket modifié : ${result.dataValues.id} `, data: result })
+                    });
+            };
+        })
+        .catch(error => {
+            // Redirect Error
+            if (error instanceof ValidationError) {
+                // check and rename if Default Error Message
+                checkIsDefaultValidatorErrorMessage(error);
+                // Return Error 400
+                return res.status(400).json({ message: `${error.message}` });
+            }
+            // Internal Error
+            res.status(500).json({ message: error.message });
+        });
 }
 // Delete
 const deleteEvent = (req, res) =>{
     // Init
-    console.log("deleteEvent");
+    EventModel
+    .findByPk(req.params.id)
+    .then(result => {
+        if (!result) {
+            //throw new Error('Aucun coworking trouvé')
+            res.status(404).json({ message: `l'évènement n'existe pas` })
+        } else {
+            return result
+                .destroy()
+                .then(() => {
+                    res.json({ message: `l'évènement N°${result.dataValues.id} a été supprimé.`, data: result })
+                })
+        }
+    })
+    .catch(error => {
+        res.status(500).json({ message: `${error}` })
+    })
 }
 // Export
 module.exports = {findAllEvents, findEventByPk, createEvent, updateEvent, deleteEvent}

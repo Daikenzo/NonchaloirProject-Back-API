@@ -30,25 +30,24 @@ const defineUserModel = require('../models/userModelDefinition');
 const defineEventModel = require('../models/eventSpectModelDefenition');
 const defineEventRoleActModel = require("../models/EvActorModelDefenition");
 const defineReservationModel = require('../models/reservationModelDefenition');
-// const defineContactTicketModel = require('../models/contactTicketModelDefenition');
 
 // Table set
 const RoleModel = defineRoleModel(sequelize, DataTypes);
 const ContactModel = defineContactModel(sequelize, DataTypes);
 const UserModel = defineUserModel(sequelize, DataTypes);
 const EventModel = defineEventModel(sequelize,DataTypes);
-const EventRoleActModel = defineContactModel(sequelize,DataTypes);
+const EvRoleActModel = defineEventRoleActModel(sequelize,DataTypes);
 const ReservationModel = defineReservationModel(sequelize,DataTypes);
-// const ContactTicketModel = defineContactTicketModel(sequelize,DataTypes);
 
 // Table Jointure
 RoleModel.hasMany(UserModel);
 UserModel.belongsTo(RoleModel);
 
-UserModel.hasMany(EventModel);
-EventModel.belongsTo(UserModel);
+// Join ActorRole items
+EventModel.hasMany(EvRoleActModel);
+EvRoleActModel.belongsTo(EventModel);
 
-// ContactFormList Table Define
+// ContactFormList Table Define (Afaka ContactTicketModel)
 UserModel.belongsToMany(ContactModel, { 
     through: 'contactFormList', 
     otherKey:'TitcketId',
@@ -59,6 +58,15 @@ ContactModel.belongsToMany(UserModel, {
     foreignKey:'TitcketId',
     updatedAt:false, createdAt:false
 });
+
+
+// NB: voir pour aide sur ce point
+UserModel.hasMany(ReservationModel);
+ReservationModel.belongsTo(UserModel);
+
+// Join Reservation Table Into
+EventModel.hasMany(ReservationModel);
+ReservationModel.belongsTo(EventModel);
 
 
 // Database Initialisation
@@ -73,5 +81,5 @@ const initDb = () => {
 
 // Export Module
 module.exports = {
-    initDb, sequelize, EventModel, UserModel, RoleModel, ContactModel, ReservationModel
+    initDb, sequelize, EventModel, UserModel, RoleModel, ContactModel, ReservationModel, EvRoleActModel
 };

@@ -1,6 +1,6 @@
 // Event / Spetacles Roles Actor Model Defenition
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('Event', {
+    return sequelize.define('ActorRoleList', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
