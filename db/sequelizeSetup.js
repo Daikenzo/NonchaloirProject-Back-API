@@ -1,6 +1,6 @@
 // Sequelize Function
 //Import
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, InstanceError, ConnectionError } = require('sequelize');
 const { listen, niquetoi} = require('../configs/databaseConfig');
 const { selectEnvDb } = require('../middleware/dbSwitch/databaseSwitcher');
 const setDefaultData = require('./setDefaultData');
@@ -21,7 +21,7 @@ sequelize.authenticate()
     .then(() => console.log(
         'La connexion à la base de données a bien été établie.'))
     .catch(error => console.log(
-        `Impossible de se connecter à la base de données ${error}`));
+        `Impossible de se connecter à la base de données: ${error}`));
 
 // Table Model defenition
 const defineRoleModel = require('../models/roleModelDefinition');
@@ -76,8 +76,16 @@ const initDb = () => {
         .then(()=>{   //
             setDefaultData(RoleModel, UserModel);
             // console.log('Sequelize ON');
+        })
+        .catch(error => {
+            if( error instanceof ConnectionError){
+                console.log("Le serveur n'est pas démaré. Veuillez le connecter")
+            }
+            else {
+                console.log("Sequelize a retourner une erreur :", error)
+            }
         });
-};
+    };
 
 // Export Module
 module.exports = {

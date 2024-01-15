@@ -34,7 +34,7 @@ app.use('/src/pdf', express.static(__dirname + '/sources/documents'));
 // default Request
 app.get("/src/*", (req, res) => {
     // Request Not Authorised
-    res.status(403).json({ message: `Vous n'avez pas l'autirisation d'accèder à cette adresse`});
+    res.status(404).json({ message: `Vous n'avez pas l'autorisation d'accèder à cette adresse`});
 })
 app.get("*", (req, res) => {
     // Request Not Found
@@ -42,6 +42,6 @@ app.get("*", (req, res) => {
 })
 // Connect App from listen Port
 app.listen(listen.port, (err) =>{
-    if (err) console.log("Erreur de démarage du serveur", err)
+    if (err) {return console.log("Erreur de démarage du serveur", err)}
     console.log(`Connecté sur le port ${listen.port}`);
 });

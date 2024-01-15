@@ -4,7 +4,7 @@
         "adress":{
             "number":"16",
             "street":"Impasse d'Ornon, Château d'Ornon",
-            "postcode":33170,
+            "postCode":33170,
             "city":"Gradignan"
         },
         "contact":{
@@ -22,7 +22,7 @@
         "adress":{
             "number":"238",
             "street":"Cours du Général de Gaulle (Entrée au fond du parking)",
-            "postcode":33170,
+            "postCode":33170,
             "city":"Gradignan"
         },
         "nbPlaceMax":65,
@@ -44,7 +44,7 @@
         "adress":{
             "number":"1",
             "street":"Place Marcel Vayssière",
-            "postcode":33650,
+            "postCode":33650,
             "city":"Martillac"
         },
         "nbPlaceMax":125,
@@ -66,7 +66,7 @@
         "adress":{
             "number":"24",
             "street":"Rue du Solarium",
-            "postcode":33170,
+            "postCode":33170,
             "city":"Gradignan"
         },
         "nbPlaceMax":400,
