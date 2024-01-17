@@ -29,9 +29,9 @@ const findActRoleByPk = (req, res) => {
             res.status(500).json({ message: `Une erreur est survenue : ${error}` });
         });
 };
-// Get ActRole List by 
+// Get ActRole List by Event ()
 const findAllActRoleListByEvent = (req, res) => {
-    EventModel.findOne({ where: {id:req.params.id} })
+    EventModel.findOne({ where: {id:req.params.eventId} })
         .then(event => {
             if(!event) { // If Unkown User
                 return res.status(404).json({ 
@@ -111,5 +111,6 @@ const deleteActRole = (req, res) =>{
 
 // Export
 module.exports = {
-    findAllActRoles, findActRoleByPk, createActRole, updateActRole, deleteActRole
+    findAllActRoles, findActRoleByPk, 
+    createActRole, updateActRole, deleteActRole
 };

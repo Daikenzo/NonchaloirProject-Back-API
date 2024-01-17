@@ -28,6 +28,9 @@ const findEventByPk = (req, res) => {
             if (!result) {
                 res.status(404).json({ message: `L'élément ayant pour id ${req.params.id} n'existe pas.` });
             } else {
+                // console.log(result.Reservations.find(reserv =>{
+                //     return reserv.id === 1
+                // })) // recupere la reservation à l'id 1
                 res.json({ message: `L'élément a bien été récupéré.`, data: result });
             }
         })
@@ -37,7 +40,7 @@ const findEventByPk = (req, res) => {
 };
 // Get ActRole List by 
 const findAllActRoleListByEvent = (req, res) => {
-    EventModel.findOne({ where: {id:req.params.id} })
+    EventModel.findOne({ where: {id:req.params.eventId} })
         .then(event => {
             if(!event) { // If Unkown User
                 return res.status(404).json({ 
@@ -61,6 +64,7 @@ const findAllActRoleListByEvent = (req, res) => {
             res.status(500).json({ message: `Une erreur est survenue : ${error}` });
         });
 };
+
 
 // Create
 const createEvent = (req, res) => {
@@ -88,7 +92,7 @@ const createEvent = (req, res) => {
             localContactMail:reqData.contact.email,
             localContactPhone:reqData.contact.phone
         };
-        // console.log("event", newEvent)
+        // console.log("event", newEvent) 
         
         // Set Default Value
         if (newEvent.price.normal){ // Price Value

@@ -14,6 +14,34 @@ const findAllReservation = (req, res) => {
             res.status(500).json({ message: error })
         });
 };
+// Find Reservation list By Event (with eventId param)
+const findAllReservationListByEventParam = (req, res) => {
+    EventModel.findOne({ where: {id:req.params.eventId} })
+        .then(event => {
+            if(!event) { // If Unkown User
+                return res.status(404).json({ 
+                    message: `L'évènement n'a pas été trouvé.` 
+                });
+            };
+            ReservationModel
+            .findAll({ where: {EventId:event.id}})
+            .then(result => {
+                if(!result) { // If Unkown User
+                    return res.status(404).json({ 
+                        message: `La liste est vide` 
+                    });
+                };
+                return res.json({ 
+                    message: 'La liste des rôles a été récupéré', data: result 
+                });
+            });
+        })
+        .catch(error => {
+            res.status(500).json({ message: `Une erreur est survenue : ${error}` });
+        });
+};
+
+
 // la création dépends  de l'id utilisateur et de l'id du spectacle
 // Find One Ticket
 const findReservByPk = (req, res) => {
@@ -32,6 +60,33 @@ const findReservByPk = (req, res) => {
             res.status(500).json({ message: error })
         });
 };
+// Find Reservation By Event
+const findReservByPkByEvent = (req, res) => {
+    EventModel.findOne({ where: {id:req.params.eventId} })
+        .then(event => {
+            if(!event) { // If Unkown User
+                return res.status(404).json({ 
+                    message: `L'évènement n'a pas été trouvé.` 
+                });
+            };
+            ReservationModel
+            .findOne({ where: {id:req.params.id, EventId:event.id}})
+            .then(result => {
+                if(!result) { // If Unkown User
+                    return res.status(404).json({ 
+                        message: `La réservation n°${req.params.id} n'existe pas ou est attribué a un autre évènement`
+                    });
+                };
+                return res.json({ 
+                    message: `La réservation n°${req.params.id} de l'évènement ${event.id} a été récupéré`, data: result 
+                });
+            });
+        })
+        .catch(error => {
+            res.status(500).json({ message: `Une erreur est survenue : ${error}` });
+        });
+};
+
 /*
 SELECT TicketId, Libelle, UserId, EventId
 from Reservations
@@ -177,5 +232,7 @@ const deleteReservation = (req, res) =>{
 
 // Export
 module.exports = {
-    findAllReservation, findReservByPk, createReservation, updateReservation, deleteReservation
+    findAllReservation, findReservByPk, 
+    findAllReservationListByEventParam, findReservByPkByEvent,
+    createReservation, updateReservation, deleteReservation
 };
