@@ -65,18 +65,15 @@ const findAllActRoleListByEvent = (req, res) => {
         });
 };
 
-
 // Create
-const createEvent = (req, res) => {
+const createEvent = (req, res) => { // Without Image and ActRole
     // console.log(req.body);
     // Verif Valid User
     UserModel.findOne({ where: { username: req.username } })
     .then(user => {
-        
         if (!user) { // If Unkown User
             return res.status(404).json({ message: `L'utilisateur n'a pas été trouvé.` })
         }
-        
         // Set Event Data
         const reqData = req.body
         // console.log("test", reqData)
@@ -92,8 +89,7 @@ const createEvent = (req, res) => {
             localContactMail:reqData.contact.email,
             localContactPhone:reqData.contact.phone
         };
-        // console.log("event", newEvent) 
-        
+
         // Set Default Value
         if (newEvent.price.normal){ // Price Value
             if(newEvent.price.adherent === null) newEvent.price.adherent = 0;
@@ -102,7 +98,6 @@ const createEvent = (req, res) => {
             if(newEvent.price.student=== null && !newEvent.price.junior) newEvent.price.student = 8;
         };
         // Create Into database
-        
         EventModel.create(newEvent)
             .then((event)=>{
                 res.status(201).json({ message: `L'évènement a bien été ajouté.`, data: event })
@@ -128,7 +123,7 @@ const createEvent = (req, res) => {
         res.status(500).json({ message: `Une erreur est survenue :  ${error}` })
     })        
 };
-const createEventWithImage = (req, res) => {
+const createEventWithImage = (req, res) => { //With Image
     
 };
 
@@ -179,7 +174,7 @@ const deleteEvent = (req, res) =>{
     })
     .catch(error => {
         res.status(500).json({ message: `${error}` })
-    })
-}
+    });
+};
 // Export
 module.exports = {findAllEvents, findEventByPk, createEvent, updateEvent, deleteEvent, findAllActRoleListByEvent}

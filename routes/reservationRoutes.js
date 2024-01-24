@@ -15,7 +15,7 @@ router
 router
     .route('/:id')
     .get(authCtr.protect, authCtr.restrictTo("Admin"), reservCtr.findReservByPk)
-    .post(authCtr.protect, authCtr.restrictTo("User"),authCtr.restrictToOwnUser(EventModel), reservCtr.createReservation)
+    .post(authCtr.protect,authCtr.restrictToOwnUser(EventModel), reservCtr.createReservation)
     .put(authCtr.protect, authCtr.restrictToOwnUser(EventModel), reservCtr.updateReservation)
     .delete(authCtr.protect, authCtr.restrictTo("Admin"), reservCtr.deleteReservation)
 

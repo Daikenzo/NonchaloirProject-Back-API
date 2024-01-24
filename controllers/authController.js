@@ -14,6 +14,7 @@ const rolesHierarchy = {
   Editor: ["User","Adherent Spectacteur / Soutiens", "Adherent Atelier", "Editor"],
   Admin: ["User", "Adherent Spectacteur / Soutiens", "Adherent Atelier", "Editor", "Admin"]
 };
+
 // Create User
 const signUp = (req, res) => {
   bcrypt

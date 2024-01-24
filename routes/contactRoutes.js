@@ -19,6 +19,5 @@ router
     .put(authCtr.protect, authCtr.restrictTo("Editor"), contactCtr.updateContactTicket)
     .delete(authCtr.protect, authCtr.restrictTo("Admin"), contactCtr.deleteContactTicket)
 
-
 // Export Module
 module.exports = router;

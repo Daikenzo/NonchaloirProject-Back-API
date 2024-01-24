@@ -60,12 +60,22 @@ ContactModel.belongsToMany(UserModel, {
 });
 
 
+
 // NB: voir pour aide sur ce point
-UserModel.hasMany(ReservationModel);
+UserModel.hasMany(ReservationModel,{
+    foreignKey: {
+        // allowNull: false
+        // defaultValue:1
+    }
+});
 ReservationModel.belongsTo(UserModel);
 
 // Join Reservation Table Into
-EventModel.hasMany(ReservationModel);
+EventModel.hasMany(ReservationModel,{
+    foreignKey: {
+        // allowNull: false
+    }
+});
 ReservationModel.belongsTo(EventModel);
 
 
@@ -74,7 +84,10 @@ const initDb = () => {
     sequelize
         .sync({force: true}) // Sync Data config
         .then(()=>{   //
-            setDefaultData(RoleModel, UserModel);
+            setDefaultData(
+                    RoleModel, UserModel, ContactModel, 
+                    EventModel, EvRoleActModel, ReservationModel
+                );
             // console.log('Sequelize ON');
         })
         .catch(error => {
@@ -89,5 +102,5 @@ const initDb = () => {
 
 // Export Module
 module.exports = {
-    initDb, sequelize, EventModel, UserModel, RoleModel, ContactModel, ReservationModel, EvRoleActModel
+    initDb, sequelize, RoleModel, UserModel, ContactModel, EventModel, EvRoleActModel, ReservationModel
 };

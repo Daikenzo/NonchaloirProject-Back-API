@@ -1,6 +1,6 @@
 // Role Model
 const { UniqueConstraintError, ValidationError, Op } = require('sequelize')
-const { EvRoleActModel, EventModel,  } = require("../db/sequelizeSetup")
+const { EvRoleActModel, EventModel, sequelize,  } = require("../db/sequelizeSetup")
 const { checkIsDefaultValidatorErrorMessage } = require('./errorController')
 
 // Get All List
@@ -31,6 +31,7 @@ const findActRoleByPk = (req, res) => {
 };
 // Get ActRole List by Event ()
 const findAllActRoleListByEvent = (req, res) => {
+
     EventModel.findOne({ where: {id:req.params.eventId} })
         .then(event => {
             if(!event) { // If Unkown User

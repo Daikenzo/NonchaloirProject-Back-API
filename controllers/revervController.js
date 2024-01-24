@@ -98,7 +98,7 @@ from Reservations
 */
 // Create Ticket
 const createReservation = (req, res) =>{
-    UserModel.findOne({ where: {email:req.email} })
+    UserModel.findOne({ where: {username:req.username} })
     .then(user => {
         if(!user) { // If Unkown User
             return res.status(404).json({ 
@@ -106,6 +106,7 @@ const createReservation = (req, res) =>{
             });
         };
         const eventId = req.body.EventId || req.body.eventId
+        const UserId = req.body.UserId? req.body.UserId : user.id
         return EventModel
         .findOne({ where: {id:eventId}, include:ReservationModel })
         .then(event => {
@@ -128,7 +129,7 @@ const createReservation = (req, res) =>{
                 payment = "Unpaid"
             }
             return ReservationModel.create({
-                ...req.body, UserId: user.id, EventId:event.id, paymentState:payment
+                ...req.body, UserId: UserId, EventId:event.id, paymentState:payment
             })
             .then(result =>{
                 // Success
