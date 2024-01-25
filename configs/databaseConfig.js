@@ -2,7 +2,7 @@
 
 // Port D'écoute (Default)
 const listen = {
-    host: `localhost`,
+    host: process.env.host || `localhost`,
     port: process.env.port || 8010
 }
 

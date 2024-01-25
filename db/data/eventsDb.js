@@ -158,7 +158,7 @@ Première mise en scène Jérémy NARDOT pour le Théâtre du Nonchaloir`,
         "eventDate":new Date(`2024-06-22T20:00:00.000Z`),
         "description":
 `2 mises en scène de Romain PIERROT et Jérémy Nardot`,
-        "actor":[],
+        "actorRole":[],
         "directing":["Romain PIERROT","Jérémy NARDOT"],
         "price":localAdress["Solarium"].placePrice,
         "localContactName":localAdress["Solarium"].contact.name,

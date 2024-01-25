@@ -1,8 +1,8 @@
 // Import function
 const bcrypt = require('bcrypt');
-const { Op } = require('sequelize');
+const { Op, ValidationError } = require('sequelize');
 // Import Data
-const roles = require('./data/roles');
+const roles = require('./data/roles.json');
 const usersDb = require('./data/usersDb');
 const eventDb = require('./data/eventsDb');
 
@@ -18,7 +18,7 @@ module.exports = (RoleModel, UserModel, ContactModel, EventModel, EvRoleActModel
     // Set Default User into B
     Promise.all(rolePromises).then(async () => {
         const userPromises = []
-        userPromises.push(
+        userPromises.push( // push undefined ?
             // Get Admin User
             await RoleModel.findOne({ where: { label: 'Admin' } })
                 .then(async role => {
@@ -27,7 +27,7 @@ module.exports = (RoleModel, UserModel, ContactModel, EventModel, EvRoleActModel
                         return user.roles == role.label
                     });
                     // Create User
-                    adminUser.forEach(user =>{
+                    adminUser.map(user =>{
                         const psw = user.password? user.password : 'admin';
                         return bcrypt.hash(psw, 10)
                             .then(hash =>{
@@ -84,7 +84,8 @@ module.exports = (RoleModel, UserModel, ContactModel, EventModel, EvRoleActModel
                 })
         ); // Fin user Create
         Promise.all(userPromises)
-            .then( async() =>{
+            .then( async( users) =>{
+                console.log(users)
                 // Create Event
                 const eventPromises = eventDb.map(mockEvent =>{
                     return EventModel.create({
@@ -98,8 +99,7 @@ module.exports = (RoleModel, UserModel, ContactModel, EventModel, EvRoleActModel
                         localContactMail:mockEvent.localContactEmail || null,
                         localContactPhone:mockEvent.localContactPhone || null,
                         localContactWebsite:mockEvent.localContactWebsite || null,
-                        description:mockEvent.description,
-                        UserId: 1
+                        description:mockEvent.description
                     });
                 });
                 // Create Event RoleAct List
@@ -129,7 +129,7 @@ module.exports = (RoleModel, UserModel, ContactModel, EventModel, EvRoleActModel
                         };
                     });                   
                 })
-                Promise.all(eventPromises, userPromises).then( (event) =>{
+                Promise.all(eventPromises).then( (event) =>{
                     // Create Reservation
                     // Error : voir avec personne
                     ReservationModel.create({

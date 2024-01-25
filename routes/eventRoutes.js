@@ -4,7 +4,7 @@ const router = express.Router();
 // Init Conthrollers
 const eventCtr = require('../controllers/eventController');
 const ActRoleCtr = require('../controllers/evActorRoleController');
-const ReservCtr = require('../controllers/revervController');
+const reservCtr = require('../controllers/revervController');
 const authCtr = require('../controllers/authController');
 const { EventModel } = require('../db/sequelizeSetup');
 
@@ -23,11 +23,15 @@ router
     .route('/:eventId/actor')
     .get(authCtr.protect, authCtr.restrictTo("Editor"), eventCtr.findAllActRoleListByEvent)
 router
+    .route('/:eventId/actor/:id')
+    .post(authCtr.protect, authCtr.restrictTo("Editor"), ActRoleCtr.createActRole)
+router
     .route('/:eventId/reservation')
-    .get(authCtr.protect, authCtr.restrictTo("Editor"), ReservCtr.findAllReservationListByEventParam)
+    .get(authCtr.protect, authCtr.restrictTo("Editor"), reservCtr.findAllReservationListByEventParam)
 router
     .route('/:eventId/reservation/:id')
-    .get(authCtr.protect, authCtr.restrictTo("Editor"), ReservCtr.findReservByPkByEvent)
+    .get(authCtr.protect, authCtr.restrictTo("Editor"), reservCtr.findReservByPkByEvent)
+    .post(authCtr.protect,authCtr.restrictToOwnUser(EventModel), reservCtr.createReservation)
 
 // Export Module
 module.exports = router;

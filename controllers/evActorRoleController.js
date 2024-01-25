@@ -59,8 +59,10 @@ const findAllActRoleListByEvent = (req, res) => {
 
 // Create Actor Role
 const createActRole = (req,res) => {
+    const eventIdParam = req.params.eventId || null
+    const EventId = !(eventIdParam === null)? req.body.EventId : eventIdParam
     // Check if Event is here
-    EventModel.findOne({ where: {id: req.body.EventId}, 
+    EventModel.findOne({ where: {id: EventId}, 
         include: EvRoleActModel })
         .then(event => {
             if(!event) { // If Unkown User

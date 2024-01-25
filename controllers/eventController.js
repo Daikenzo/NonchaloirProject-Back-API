@@ -126,6 +126,89 @@ const createEvent = (req, res) => { // Without Image and ActRole
 const createEventWithImage = (req, res) => { //With Image
     
 };
+// Create
+const createEventWithActRole = (req, res) => { // Without Image and ActRole
+    // console.log(req.body);
+    // Verif Valid User
+    UserModel.findOne({ where: { username: req.username } })
+    .then(user => {
+        if (!user) { // If Unkown User
+            return res.status(404).json({ message: `L'utilisateur n'a pas été trouvé.` })
+        }
+        // Set Event Data
+        const reqData = req.body
+        // console.log("test", reqData)
+        const newEvent = {
+            UserId:user.id,
+            name:req.body.name,
+            creationDate:reqData.creationDate,
+            description:reqData.description,
+            type:reqData.type?reqData.type : "Spectacles",
+            price:reqData.price? reqData.price : {},
+            localAdress:reqData.adress,
+            localContactName:reqData.contact.name,
+            localContactMail:reqData.contact.email,
+            localContactPhone:reqData.contact.phone
+        };
+        const newActRoleEvent = !reqData.actorList? undefined :{
+            ...reqData.actorList
+        }
+        // eventDb.map( (mockEvents, EvId) =>{
+        //     // console.log("eventId",EvId+1) // EventId Number into Database
+        //     // const eventRoleActs = eventDb.filter( (event, index) =>{
+        //     //     return eventDb[EvId].actorRole instanceof Object
+        //     // });
+        //     if (eventDb[EvId].actorRole instanceof Object){ // Check is ActorList list into EventId (events[EvId].id)
+        //         const ActorRoleList = eventDb[EvId].actorRole.length > 0 && eventDb[EvId].actorRole
+        //         // If ActorRole List is undefine, return nothing, else create
+        //         if(!ActorRoleList){ return false}
+        //         else {
+        //             ActorRoleList.map(ActRole =>{
+        //                 return ( // Create
+        //                     EvRoleActModel.create({
+        //                         EventId:events[EvId].id, // Get The real EventId
+        //                         roleName:ActRole.role,
+        //                         roleActor: ActRole.actor
+        //                     })
+        //                 );
+        //             });
+        //         };
+        //     };
+        // });  
+
+        // Set Default Value
+        if (newEvent.price.normal){ // Price Value
+            if(newEvent.price.adherent === null) newEvent.price.adherent = 0;
+            if(newEvent.price.group === null) newEvent.price.group = 10;
+            if(!newEvent.price.student && newEvent.price.junior === null) newEvent.price.junior = 8;
+            if(newEvent.price.student=== null && !newEvent.price.junior) newEvent.price.student = 8;
+        };
+        // Create Into database
+        EventModel.create(newEvent)
+            .then((event)=>{
+                res.status(201).json({ message: `L'évènement a bien été ajouté.`, data: event })
+            })
+            .catch((error) => {
+                // Redirect Error
+                if (error instanceof ValidationError) { 
+                  checkIsDefaultValidatorErrorMessage(error);
+                  // Return Error 400
+                  return res.status(400).json({ message: `${error.message}` });
+                }
+                res.status(500).json({ message: `L'évènement n'a pas pu être crée`, data: error.message })
+            })
+    })
+    .catch((error) => { // Default Error
+        // Redirect Error
+        if (error instanceof ValidationError) {
+          checkIsDefaultValidatorErrorMessage(error);
+          // Return Error 400
+          return res.status(400).json({ message: `${error.message}` });
+        }
+        // Default Error
+        res.status(500).json({ message: `Une erreur est survenue :  ${error}` })
+    })        
+};
 
 // Update
 const updateEvent = (req, res) =>{

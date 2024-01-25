@@ -48,18 +48,16 @@ EventModel.hasMany(EvRoleActModel);
 EvRoleActModel.belongsTo(EventModel);
 
 // ContactFormList Table Define (Afaka ContactTicketModel)
-UserModel.belongsToMany(ContactModel, { 
-    through: 'contactFormList', 
-    otherKey:'TitcketId',
-    updatedAt:false, createdAt:false
-});
-ContactModel.belongsToMany(UserModel, { 
-    through: 'contactFormList',
-    foreignKey:'TitcketId',
-    updatedAt:false, createdAt:false
-});
-
-
+// UserModel.belongsToMany(ContactModel, { 
+//     through: 'contactFormList', 
+//     otherKey:'TitcketId',
+//     updatedAt:false, createdAt:false
+// });
+// ContactModel.belongsToMany(UserModel, { 
+//     through: 'contactFormList',
+//     foreignKey:'TitcketId',
+//     updatedAt:false, createdAt:false
+// });
 
 // NB: voir pour aide sur ce point
 UserModel.hasMany(ReservationModel,{
@@ -82,12 +80,14 @@ ReservationModel.belongsTo(EventModel);
 // Database Initialisation
 const initDb = () => {
     sequelize
-        .sync({force: true}) // Sync Data config
+        .sync({
+            // force: true
+        }) // Sync Data config
         .then(()=>{   //
-            setDefaultData(
-                    RoleModel, UserModel, ContactModel, 
-                    EventModel, EvRoleActModel, ReservationModel
-                );
+            // setDefaultData(
+            //         RoleModel, UserModel, ContactModel, 
+            //         EventModel, EvRoleActModel, ReservationModel
+            //     );
             // console.log('Sequelize ON');
         })
         .catch(error => {

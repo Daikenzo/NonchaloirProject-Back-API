@@ -105,7 +105,8 @@ const createReservation = (req, res) =>{
                 message: `L'utilisateur n'a pas été trouvé.` 
             });
         };
-        const eventId = req.body.EventId || req.body.eventId
+        const eventIdParam = req.params.eventId || null
+        const eventId = !eventIdParam? (req.body.EventId || req.body.eventId) : eventIdParam
         const UserId = req.body.UserId? req.body.UserId : user.id
         return EventModel
         .findOne({ where: {id:eventId}, include:ReservationModel })
